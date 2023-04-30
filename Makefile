@@ -27,3 +27,6 @@ clean:
 
 zip:
 	zip -r ${PROJECT_ZIP_NAME}.zip Makefile doc src JavaFX.framework 
+
+zipfx:
+	zip -r JavaFX.framework.zip JavaFX.framework

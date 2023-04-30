@@ -31,4 +31,4 @@ replay_pid*
 
 # Add ignores
 *.pdf
-.idea
+src/out
