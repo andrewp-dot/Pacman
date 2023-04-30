@@ -1,0 +1,14 @@
+.pacman_layout {
+    -fx-min-height: 500px;
+    -fx-min-width: 200px;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+
+#button {
+    -fx-fill-height: 30px;
+    -fx-fill-width: 50px;
+    -fx-color: #D0D0D0;
+    -fx-background: #505050;
+    -fx-border-color: transparent;
+}

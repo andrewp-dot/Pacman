@@ -1,0 +1,22 @@
+.root {
+    -fx-background-color: rgb(50,100,150);
+    -fx-font-size: 32px;
+}
+
+.button {
+    -fx-background-color: transparent;
+    -fx-text-fill: White;
+}
+
+.button:hover {
+    -fx-background-color: rgb(200,200,0);
+    -fx-text-fill: Black;
+    -fx-min-width: 200px;
+    -fx-max-width: 400px;
+}
+
+#menuTitle {
+    -fx-font-size: 64px;
+    -fx-fill: Yellow;
+}
+
