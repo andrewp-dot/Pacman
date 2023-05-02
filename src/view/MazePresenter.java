@@ -38,7 +38,7 @@ public class MazePresenter {
 
 
         GridPane layout = new GridPane();
-        layout.add(new Text("Score"), 0, 2);
+        layout.add(new Text("Score"),  0, 0, GridPane.REMAINING, 1);
         layout.setPadding(new Insets(10,10,10,10));
         layout.setGridLinesVisible(true);
 
