@@ -8,6 +8,10 @@ import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
+/* Custom imports */
+import game.MazeConfigure;
+import game.common.Maze;
+
 /**
  * TODO:
  * attach Maze presenter to specific maze
@@ -26,6 +30,9 @@ public class MazePresenter {
     int rowNum;
     int columnNum;
 
+    // attached maze
+    Maze maze;
+
     //change this to size ( rows:height x cols: width);
     public MazePresenter(int maxRows, int maxCols) {
         this.maxRows = maxRows;
@@ -36,12 +43,15 @@ public class MazePresenter {
 
     public Scene CreatePacmanScene(){
 
-
         GridPane layout = new GridPane();
+
+        // use update
         layout.add(new Text("Score"),  0, 0, GridPane.REMAINING, 1);
         layout.setPadding(new Insets(10,10,10,10));
-        layout.setGridLinesVisible(true);
 
+        //layout.setGridLinesVisible(true);
+
+        // instead of this create maze based on input maze
         this.addField();
         this.addField();
         this.addField();

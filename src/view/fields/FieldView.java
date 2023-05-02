@@ -1,10 +1,9 @@
 package view.fields;
-import javafx.scene.control.Button;
+import javafx.scene.shape.Rectangle;
 
 import java.lang.reflect.Field;
 
 interface FieldView {
     public void displayFiled();
-    public Button getFieldView(Field field);
-
+    public Rectangle getFieldView(Field field);
 }

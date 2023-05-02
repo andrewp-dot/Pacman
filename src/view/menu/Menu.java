@@ -2,6 +2,7 @@ package view.menu;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -30,9 +31,14 @@ public class Menu  {
     public void addOptions(String... options)
     {
         for(String opt: options) {
-            Button btn = new Button(opt);
-            this.menuOptions.add(btn);
+            addOption(opt);
         }
+    }
+
+    public void addOption(String opt)
+    {
+        Button btn = new Button(opt);
+        this.menuOptions.add(btn);
     }
 
     public void setTitle(String newTitle)
@@ -58,11 +64,14 @@ public class Menu  {
      * @return Scene
      */
     public Scene createMenuScene(){
-        VBox layout = new VBox();
+        ScrollPane scroll = new ScrollPane();
+        VBox layout = new VBox(scroll);
+
         layout.setAlignment(Pos.CENTER);
         layout.setMinSize(this.minHeight,this.minWidth);
         // set title
-        layout.getChildren().add(title);
+        System.out.println("HERE");
+        if(this.title != null) layout.getChildren().add(title);
 
         for(Button btn: this.menuOptions )
         {
@@ -72,6 +81,4 @@ public class Menu  {
         mainMenu.getStylesheets().add("styles/mainMenu.css");
         return mainMenu;
     }
-
-
 }
