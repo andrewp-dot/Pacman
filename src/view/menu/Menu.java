@@ -2,7 +2,6 @@ package view.menu;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -13,30 +12,37 @@ import java.util.ArrayList;
 /**
  * Creates main menu scene
  */
-public class MainMenu  {
-    private final static ArrayList<Button> menuOptions = new ArrayList<>();
-    private static Text title;
+public class Menu  {
+    final int minWidth;
+    final int minHeight;
+    private final ArrayList<Button> menuOptions = new ArrayList<>();
+    private Text title;
+
+    public Menu(int minWidth, int minHeight) {
+        this.minWidth = minWidth;
+        this.minHeight = minHeight;
+    }
 
     /**
      * Add options to menu
      * @param options - variadic String parameter
      */
-    public static void addOptions(String... options)
+    public void addOptions(String... options)
     {
         for(String opt: options) {
             Button btn = new Button(opt);
-            menuOptions.add(btn);
+            this.menuOptions.add(btn);
         }
     }
 
-    public static void setTitle(String newTitle)
+    public void setTitle(String newTitle)
     {
-        title = new Text(newTitle);
-        title.setId("menuTitle");
+        this.title = new Text(newTitle);
+        this.title.setId("menuTitle");
     }
-    public static Button getButtonByTitle(String title) {
+    public Button getButtonByTitle(String title) {
         Button button = null;
-        for(Button btn: menuOptions)
+        for(Button btn: this.menuOptions)
         {
             if(btn.getText().equals(title))
             {
@@ -51,18 +57,18 @@ public class MainMenu  {
      * Creates main menu scene
      * @return Scene
      */
-    public static Scene createMenu(int minHeight,int minWidth){
+    public Scene createMenuScene(){
         VBox layout = new VBox();
         layout.setAlignment(Pos.CENTER);
-        layout.setMinSize(minHeight,minWidth);
+        layout.setMinSize(this.minHeight,this.minWidth);
         // set title
         layout.getChildren().add(title);
 
-        for(Button btn: menuOptions )
+        for(Button btn: this.menuOptions )
         {
             layout.getChildren().add(btn);
         }
-        Scene mainMenu = new Scene(layout,minHeight,minWidth);
+        Scene mainMenu = new Scene(layout,this.minHeight,this.minWidth);
         mainMenu.getStylesheets().add("styles/mainMenu.css");
         return mainMenu;
     }

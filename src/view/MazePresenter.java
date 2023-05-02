@@ -10,35 +10,109 @@ import java.util.ArrayList;
  * Creates graphical maze
  */
 public class MazePresenter {
-    public static Scene PacmanGame(){
-        ArrayList<ArrayList<Rectangle>> fields = new ArrayList<>(2);
+
+    /**
+     *  Default size of field in px
+     */
+    int sideSize = 25;
+    ArrayList<ArrayList<Rectangle>> fields = new ArrayList<>(1);
+
+    //change this values to test
+    int maxRows;
+    int maxCols;
+    int rowNum;
+    int columnNum;
+
+    //change this to size ( rows:height x cols: width);
+    public MazePresenter(int maxRows, int maxCols) {
+        this.maxRows = maxRows;
+        this.maxCols = maxCols;
+        this.rowNum = 0;
+        this.columnNum = 0;
+    }
+
+    public Scene CreatePacmanScene(){
+
 
         GridPane layout = new GridPane();
         layout.setPadding(new Insets(10,10,10,10));
         layout.setGridLinesVisible(true);
 
         // test field to arr
-        Rectangle test_field = new Rectangle();
-        test_field.setHeight(50);
-        test_field.setWidth(50);
-        test_field.setFill(Color.rgb(200,100,200));
-        test_field.setOnMouseClicked(mouseEvent ->  test_field.setFill(Color.rgb(100,200,100)));
+        this.addField();
+        this.addField();
+        this.addField();
+        this.addField();
 
+        this.addField();
+        this.addField();
+
+        System.out.println();
+        renderMaze(layout, fields);
+
+        Scene pacman_scene = new Scene(layout);
+        System.out.println("PacmanWindow created.");
+        return pacman_scene;
+    }
+
+    /**
+     * Renders pacman maze
+     * @param layout - gridpane for pacman maze
+     * @param fields - array of fields to be rendered as rectangle
+     */
+    private void renderMaze(GridPane layout,  ArrayList<ArrayList<Rectangle>> fields)
+    {
         int btn_row_num = 0;
         for(int i = 0; i < fields.size(); i++)
         {
             for(Rectangle field: fields.get(i)) {
                 GridPane.setConstraints(field,btn_row_num,i);
                 btn_row_num += 1;
-                layout.getChildren().add(field);
+                layout.add(field,(int)field.getX(),(int)field.getY());
             }
             btn_row_num = 0;
         }
+    }
 
-        layout.getChildren().add(test_field);
+    private void addField()
+    {
+        if(this.rowNum >= maxRows)
+        {
+            System.err.println("Max number of rows has been reached.");
+            return;
+        }
 
-        Scene pacman_scene = new Scene(layout,300,300);
-        System.out.println("PacmanWindow created.");
-        return pacman_scene;
+
+        if(this.fields.size() == 0){
+            this.fields.add(rowNum,new ArrayList<>(0));
+        }
+
+        else if(this.columnNum >= maxCols )
+        {
+            this.fields.add(rowNum,new ArrayList<>(0));
+            rowNum += 1;
+            columnNum = 0;
+        }
+        Rectangle test_field = new Rectangle();
+        setupField(test_field);
+        this.fields.get(rowNum).add(test_field);
+        columnNum += 1;
+    }
+
+    private void setupField(Rectangle field)
+    {
+        // setup field
+        field.setHeight(sideSize);
+        field.setWidth(sideSize);
+
+        // mouse event
+        field.setOnMouseEntered(mouseEvent ->  field.setFill(Color.rgb(210,210,210)));
+        field.setOnMouseExited(mouseEvent -> field.setFill(Color.rgb(150,150,150)));
+
+        field.setOnMouseClicked(mouseEvent ->
+                System.out.println("x: "+ field.getX() + "y: " + field.getY())
+        );
+        field.setX(this.columnNum);
+        field.setY(this.rowNum);
     }
 }

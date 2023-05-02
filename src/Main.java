@@ -3,7 +3,7 @@ import javafx.stage.Stage;
 
 /* Custom imports */
 import view.MazePresenter;
-import view.menu.MainMenu;
+import view.menu.Menu;
 
 public class Main extends Application{
 
@@ -19,9 +19,12 @@ public class Main extends Application{
             windowEvent.consume();
             close_handler();
         });
-
+        Menu mainMenu = basicMenuSetup();
         basicMenuSetup();
-        window.setScene(MainMenu.createMenu(500,500));
+
+        window.setScene(mainMenu.createMenuScene());
+        System.out.println(primaryStage.getWidth());
+
         window.show();
     }
 
@@ -34,11 +37,16 @@ public class Main extends Application{
     /**
      * Set ups standard menu
      */
-    private void basicMenuSetup()
+    private Menu basicMenuSetup()
     {
-        MainMenu.setTitle("Main PacMenu");
-        MainMenu.addOptions("Play","Settings","Exit");
-        MainMenu.getButtonByTitle("Play").setOnMouseClicked(mouseEvent -> window.setScene(MazePresenter.PacmanGame()));
+        Menu mainMenu = new Menu(500,500);
+        mainMenu.setTitle("Main Pacmenu");
+        mainMenu.addOptions("Play","Settings","Exit");
+
+        // change this to level setups
+        MazePresenter test = new MazePresenter(2,3);
+        mainMenu.getButtonByTitle("Play").setOnMouseClicked(mouseEvent -> window.setScene(test.CreatePacmanScene()));
+        return mainMenu;
     }
 
     public static void main(String[] args){
