@@ -4,10 +4,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+
 import java.util.ArrayList;
 
 /**
- * Creates graphical maze
+ * TODO:
+ * attach Maze presenter to specific maze
  */
 public class MazePresenter {
 
@@ -35,10 +38,10 @@ public class MazePresenter {
 
 
         GridPane layout = new GridPane();
+        layout.add(new Text("Score"), 0, 2);
         layout.setPadding(new Insets(10,10,10,10));
         layout.setGridLinesVisible(true);
 
-        // test field to arr
         this.addField();
         this.addField();
         this.addField();
@@ -47,9 +50,7 @@ public class MazePresenter {
         this.addField();
         this.addField();
 
-        System.out.println();
         renderMaze(layout, fields);
-
         Scene pacman_scene = new Scene(layout);
         System.out.println("PacmanWindow created.");
         return pacman_scene;
@@ -57,7 +58,7 @@ public class MazePresenter {
 
     /**
      * Renders pacman maze
-     * @param layout - gridpane for pacman maze
+     * @param layout - grid pane for pacman maze
      * @param fields - array of fields to be rendered as rectangle
      */
     private void renderMaze(GridPane layout,  ArrayList<ArrayList<Rectangle>> fields)
@@ -68,12 +69,15 @@ public class MazePresenter {
             for(Rectangle field: fields.get(i)) {
                 GridPane.setConstraints(field,btn_row_num,i);
                 btn_row_num += 1;
-                layout.add(field,(int)field.getX(),(int)field.getY());
+                layout.add(field,(int)field.getX() ,(int)field.getY() + 4);
             }
             btn_row_num = 0;
         }
     }
 
+    /**
+     * Adds field as Rectangle to fields array
+     */
     private void addField()
     {
         if(this.rowNum >= maxRows)
@@ -99,6 +103,11 @@ public class MazePresenter {
         columnNum += 1;
     }
 
+    /**
+     * Sets basic paramas and mouse events to field
+     * @param field
+     * @type type - type of field to select settings which are typical for the type
+     */
     private void setupField(Rectangle field)
     {
         // setup field

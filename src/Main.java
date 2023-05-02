@@ -12,7 +12,7 @@ public class Main extends Application{
     public void start(Stage primaryStage) throws Exception {
         // set stage to global window
         window = primaryStage;
-
+        window.setResizable(false);
         // Set title and on close event
         window.setTitle("Maze");
         window.setOnCloseRequest(windowEvent -> {
