@@ -3,15 +3,12 @@ import game.common.Field;
 import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +16,7 @@ import java.util.regex.Pattern;
 /* Custom imports */
 import game.MazeConfigure;
 import game.common.Maze;
+import view.fields.FieldView;
 
 /**
  * TODO:
@@ -50,26 +48,26 @@ public class MazePresenter {
     }
 
     public Scene CreatePacmanScene(){
-
+        //TODO: use 1 root pane and then hbox and grid or whatever
         GridPane layout = new GridPane();
-
-        // use update
+        //TODO: use update
         layout.add(new Text("Score"),  0, 0, GridPane.REMAINING, 1);
         layout.setPadding(new Insets(10,10,10,10));
 
         //layout.setGridLinesVisible(true);
+        addFieldRepresentation();
 
-        // instead of this create maze based on input maze
-        this.addField();
-        this.addField();
-        this.addField();
-        this.addField();
-
-        this.addField();
-        this.addField();
+        for (ArrayList<Rectangle> rectangles : fields)
+        {
+            for (Rectangle field : rectangles)
+            {
+                System.out.println(field.getId());
+            }
+        }
 
         renderMaze(layout, fields);
         Scene pacman_scene = new Scene(layout);
+        pacman_scene.getStylesheets().add("styles/maze.css");
         System.out.println("PacmanWindow created.");
         return pacman_scene;
     }
@@ -101,7 +99,7 @@ public class MazePresenter {
     /**
      * Adds field as Rectangle to fields array
      */
-    private void addField()
+    private void addField(Field field)
     {
         if(this.rowNum >= maxRows)
         {
@@ -119,15 +117,15 @@ public class MazePresenter {
             rowNum += 1;
             columnNum = 0;
         }
-        Rectangle test_field = new Rectangle();
-        setupField(test_field);
-        this.fields.get(rowNum).add(test_field);
+        Rectangle fieldView = FieldView.getFieldView(field);
+        setupField(fieldView);
+        this.fields.get(rowNum).add(fieldView);
         columnNum += 1;
     }
 
     /**
      * Sets basic paramas and mouse events to field
-     * @param field
+     * @param field - field got by maze
      */
     private void setupField(Rectangle field)
     {
@@ -135,12 +133,8 @@ public class MazePresenter {
         field.setHeight(sideSize);
         field.setWidth(sideSize);
 
-        // mouse event
-        field.setOnMouseEntered(mouseEvent ->  field.setFill(Color.rgb(210,210,210)));
-        field.setOnMouseExited(mouseEvent -> field.setFill(Color.rgb(150,150,150)));
-
         field.setOnMouseClicked(mouseEvent ->
-                System.out.println("x: "+ field.getX() + "y: " + field.getY())
+                System.out.println("x: "+ field.getX() + "y: " + field.getY() + " id:" + field.getId())
         );
         field.setX(this.columnNum);
         field.setY(this.rowNum);
@@ -151,8 +145,12 @@ public class MazePresenter {
         Integer[] nums = new Integer[2];
         Pattern findNumsPattern = Pattern.compile("\\d+");
 
-        //TODO: maybe verificication of format
-        if(!str.matches("^[0-9 ]+$")) throw new Exception("Wrong format of map.");
+        // TODO: FIX THIS
+        if(!str.matches("^[0-9 ]+$") || str.isEmpty())
+        {
+            throw new Exception("Wrong format of map.");
+        }
+
         Matcher matcher = findNumsPattern.matcher(str);
         int i = 0;
         while (matcher.find()) {
@@ -163,13 +161,17 @@ public class MazePresenter {
             }
             catch (Exception e)
             {
-                System.out.println(e);
+                System.err.println(e.getMessage());
                 break;
             }
             i += 1;
         }
         return nums;
     }
+
+    /**
+     * Sets maze for rendering
+     */
     private void setupMaze()
     {
         MazeConfigure mazeConfig = new MazeConfigure();
@@ -177,22 +179,19 @@ public class MazePresenter {
         try {
             BufferedReader reader = new BufferedReader(new FileReader("src/maps/" + this.map));
             String line = reader.readLine();
-            Integer[] size = null;
+            Integer[] size;
             try
             {
                 size = findNumbers(line);
             }
             catch (Exception e)
             {
-                System.err.println(e);
+                System.err.println(e.getMessage());
                 return;
             }
 
-            this.maxRows = size[0];
-            this.maxCols = size[1];
-            System.out.println("ROWS: " + this.maxRows + " COLS: " + this.maxCols);
+            mazeConfig.startReading(size[0],size[1]);
 
-            mazeConfig.startReading(this.maxRows,this.maxCols);
             while (line != null)
             {
                 System.out.println(line);
@@ -200,10 +199,25 @@ public class MazePresenter {
                 mazeConfig.processLine(line);
             }
             this.maze = mazeConfig;
+            this.maxRows = size[0] + 2;
+            this.maxCols = size[1] + 2;
             mazeConfig.stopReading();
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void addFieldRepresentation()
+    {
+        System.out.println(maze.getRowCount());
+        System.out.println(maze.getColCount());
+        for (int col = 0; col < maze.getColCount(); col++)
+        {
+            for (int row = 0; row < maze.getRowCount(); row++)
+            {
+                addField(this.maze.getField(col,row));
+            }
         }
     }
 }

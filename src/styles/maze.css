@@ -1,0 +1,18 @@
+.root{
+    -fx-background-color: rgb(100,100,255);
+}
+#pathField {
+    -fx-fill: WHITE;
+}
+
+#startField {
+    -fx-fill: chocolate;
+}
+
+#endField {
+    -fx-fill: chartreuse;
+}
+
+#wallField {
+    -fx-fill: black;
+}

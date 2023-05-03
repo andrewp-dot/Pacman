@@ -15,7 +15,7 @@ MAIN_CLASS=$(MAIN_PATH).class
 # constants
 PROJECT_ZIP_NAME=ija_project
 
-make: $(MAIN_JAVA)
+make: $(MAIN_JAVA) clean
 	$(COMPILER) $(FLAGS) -cp  $(SRC) $(MAIN_JAVA)
 
 run: make

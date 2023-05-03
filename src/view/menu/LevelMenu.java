@@ -5,33 +5,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /* javafx */
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import view.MazePresenter;
-import view.menu.Menu;
-
-/* Custom imports */
-import game.MazeConfigure;
-
-/**
- * TODO:
- * createLevel function -> send to maze presenter
- * add go back button
- */
-
 public class LevelMenu extends Menu {
-
     Scene scene;
     ArrayList<String> maps = new ArrayList<>(0);
     public LevelMenu(int minWidth, int minHeight, Stage stage)
@@ -59,6 +41,7 @@ public class LevelMenu extends Menu {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(layout);
         scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
 
         layout.setMaxHeight(Double.MAX_VALUE);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -161,7 +144,6 @@ public class LevelMenu extends Menu {
         }
     }
 
-    //private String loadLevel(String lvlNum) { return getMaps().get(Integer.parseInt(lvlNum) - 1); }
     private Scene createLevel(Button btn)
     {
         MazePresenter maze = new MazePresenter(maps.get(Integer.parseInt(btn.getId())));

@@ -12,7 +12,11 @@
 
 .root {
     -fx-font-size: 32px;
-    -fx-background-color: rgb(50,100,150);;
+    -fx-background-color: rgb(50,100,150);
+}
+
+.scroll-pane {
+    -fx-background-color: rgb(50,100,150);
 }
 
 #vbox {
