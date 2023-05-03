@@ -23,7 +23,7 @@ run: make
 
 .PHONY:
 clean:
-	rm $(SOURCES) ./$(SRC)/*.class ./$(SRC)/model/*class ./$(SRC)/view/*.class ./$(SRC)/controller/*.class
+	find ./$(SRC) -type f -name '*.class' -delete
 
 zip:
 	zip -r ${PROJECT_ZIP_NAME}.zip Makefile doc src JavaFX.framework 

@@ -66,6 +66,11 @@ public class MazePresenter {
         return pacman_scene;
     }
 
+    public void setMaze(Maze maze)
+    {
+        this.maze = maze;
+    }
+
     /**
      * Renders pacman maze
      * @param layout - grid pane for pacman maze

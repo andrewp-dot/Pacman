@@ -2,12 +2,9 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 /* Custom imports */
-import view.MazePresenter;
+import view.menu.MainMenu;
 import view.menu.Menu;
-import view.LevelMenu;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import view.menu.LevelMenu;
 
 public class Main extends Application{
     // size of window in pixels
@@ -29,16 +26,14 @@ public class Main extends Application{
         Menu mainMenu = basicMenuSetup();
         basicMenuSetup();
 
-        //window.setScene(mainMenu.createMenuScene());
-        System.out.println(primaryStage.getWidth());
-
-        LevelMenu lvl = new LevelMenu(windowWidth,windowHeight);
-        window.setScene(lvl.createMenuScene());
+        window.setScene(mainMenu.createMenuScene());
+        //System.out.println(primaryStage.getWidth());
 
         window.show();
     }
 
-    private void close_handler() {
+    private void close_handler()
+    {
         // add handling for X button -> comunication between scenes / windows
         System.out.println("Bye bye...");
         window.close();
@@ -49,13 +44,13 @@ public class Main extends Application{
      */
     private Menu basicMenuSetup()
     {
-        Menu mainMenu = new Menu(windowWidth,windowHeight);
+        Menu mainMenu = new MainMenu(windowWidth,windowHeight);
         mainMenu.setTitle("Main Pacmenu");
         mainMenu.addOptions("Play","Settings","Exit");
 
         // change this to level setups
-        MazePresenter test = new MazePresenter(2,3);
-        mainMenu.getButtonByTitle("Play").setOnMouseClicked(mouseEvent -> window.setScene(test.CreatePacmanScene()));
+        LevelMenu levelSetup = new LevelMenu(windowWidth,windowHeight);
+        mainMenu.getButtonByTitle("Play").setOnMouseClicked(mouseEvent -> window.setScene(levelSetup.createMenuScene()));
         return mainMenu;
     }
 
