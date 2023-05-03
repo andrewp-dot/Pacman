@@ -17,6 +17,8 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import view.MazePresenter;
 import view.menu.Menu;
 
 /* Custom imports */
@@ -30,12 +32,16 @@ import game.MazeConfigure;
 
 public class LevelMenu extends Menu {
 
+    Scene scene;
     ArrayList<String> maps = new ArrayList<>(0);
-    public LevelMenu(int minWidth,int minHeight)
+    public LevelMenu(int minWidth, int minHeight, Stage stage)
     {
-        super(minWidth,minHeight);
+        super(minWidth,minHeight, stage);
         this.loadMaps();
+        this.scene = createMenuScene();
     }
+
+    public Scene getScene() { return scene; }
 
     public List<String> getMaps() { return this.maps; }
 
@@ -53,7 +59,7 @@ public class LevelMenu extends Menu {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(layout);
         scrollPane.setFitToWidth(true);
-        
+
         layout.setMaxHeight(Double.MAX_VALUE);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -88,10 +94,11 @@ public class LevelMenu extends Menu {
      */
     private void parseMaps(File[] listOfFiles)
     {
-        for (File listOfFile : listOfFiles) {
+        for (File listOfFile : listOfFiles)
+        {
             String fileName = listOfFile.getName();
-            if (fileName.matches("^map[0-9]*.txt$")) {
-                //System.out.println("Map found " + fileName);
+            if (fileName.matches("^map[0-9]*.txt$"))
+            {
                 maps.add(fileName);
             }
         }
@@ -131,7 +138,6 @@ public class LevelMenu extends Menu {
      * @param lvlNum - number of level
      * @return - name of map to be loaded
      */
-    private String loadLevel(String lvlNum) { return getMaps().get(Integer.parseInt(lvlNum) - 1); }
 
     /**
      * Sets buttons events and id's, id is equal to index in maps array
@@ -143,7 +149,7 @@ public class LevelMenu extends Menu {
             this.addOption("Level " + (i + 1));
             Button btn =  this.getButtonByTitle("Level " + (i + 1));
             btn.setId(String.valueOf(i));
-            btn.setOnMouseClicked(mouseEvent -> createLevel(btn));
+            btn.setOnMouseClicked(mouseEvent -> this.window.setScene(createLevel(btn)));
         }
     }
 
@@ -155,9 +161,11 @@ public class LevelMenu extends Menu {
         }
     }
 
-    private void createLevel(Button btn)
+    //private String loadLevel(String lvlNum) { return getMaps().get(Integer.parseInt(lvlNum) - 1); }
+    private Scene createLevel(Button btn)
     {
-        System.out.println(btn.getId());
+        MazePresenter maze = new MazePresenter(maps.get(Integer.parseInt(btn.getId())));
+        return maze.CreatePacmanScene();
     }
 
 }

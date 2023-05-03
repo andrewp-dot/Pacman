@@ -27,8 +27,6 @@ public class Main extends Application{
         basicMenuSetup();
 
         window.setScene(mainMenu.createMenuScene());
-        //System.out.println(primaryStage.getWidth());
-
         window.show();
     }
 
@@ -44,13 +42,13 @@ public class Main extends Application{
      */
     private Menu basicMenuSetup()
     {
-        Menu mainMenu = new MainMenu(windowWidth,windowHeight);
+        Menu mainMenu = new MainMenu(windowWidth,windowHeight,window);
         mainMenu.setTitle("Main Pacmenu");
         mainMenu.addOptions("Play","Settings","Exit");
 
         // change this to level setups
-        LevelMenu levelSetup = new LevelMenu(windowWidth,windowHeight);
-        mainMenu.getButtonByTitle("Play").setOnMouseClicked(mouseEvent -> window.setScene(levelSetup.createMenuScene()));
+        LevelMenu levelSetup = new LevelMenu(windowWidth,windowHeight,window);
+        mainMenu.getButtonByTitle("Play").setOnMouseClicked(mouseEvent -> window.setScene(levelSetup.getScene()));
         return mainMenu;
     }
 

@@ -3,6 +3,7 @@ package view.menu;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -12,10 +13,13 @@ public abstract class Menu {
     protected final ArrayList<Button> menuOptions = new ArrayList<>();
     protected Text title;
 
-    public Menu(int minWidth, int minHeight)
+    protected Stage window;
+
+    public Menu(int minWidth, int minHeight, Stage stage)
     {
         this.minWidth = minWidth;
         this.minHeight = minHeight;
+        this.window = stage;
     }
 
     public void addOption(String opt)

@@ -1,4 +1,5 @@
 package view;
+import game.common.Field;
 import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 import javafx.scene.Scene;
@@ -6,7 +7,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /* Custom imports */
 import game.MazeConfigure;
@@ -29,16 +37,16 @@ public class MazePresenter {
     int maxCols;
     int rowNum;
     int columnNum;
-
+    String map;
     // attached maze
     Maze maze;
 
     //change this to size ( rows:height x cols: width);
-    public MazePresenter(int maxRows, int maxCols) {
-        this.maxRows = maxRows;
-        this.maxCols = maxCols;
+    public MazePresenter(String map) {
+        this.map = map;
         this.rowNum = 0;
         this.columnNum = 0;
+        setupMaze();
     }
 
     public Scene CreatePacmanScene(){
@@ -101,7 +109,6 @@ public class MazePresenter {
             return;
         }
 
-
         if(this.fields.size() == 0){
             this.fields.add(rowNum,new ArrayList<>(0));
         }
@@ -121,7 +128,6 @@ public class MazePresenter {
     /**
      * Sets basic paramas and mouse events to field
      * @param field
-     * @type type - type of field to select settings which are typical for the type
      */
     private void setupField(Rectangle field)
     {
@@ -138,5 +144,66 @@ public class MazePresenter {
         );
         field.setX(this.columnNum);
         field.setY(this.rowNum);
+    }
+
+    private Integer[] findNumbers(String str) throws Exception
+    {
+        Integer[] nums = new Integer[2];
+        Pattern findNumsPattern = Pattern.compile("\\d+");
+
+        //TODO: maybe verificication of format
+        if(!str.matches("^[0-9 ]+$")) throw new Exception("Wrong format of map.");
+        Matcher matcher = findNumsPattern.matcher(str);
+        int i = 0;
+        while (matcher.find()) {
+            String number = matcher.group();  // extract the matched number as a string
+            try
+            {
+                nums[i] = Integer.parseInt(number);  // convert the string to an integer
+            }
+            catch (Exception e)
+            {
+                System.out.println(e);
+                break;
+            }
+            i += 1;
+        }
+        return nums;
+    }
+    private void setupMaze()
+    {
+        MazeConfigure mazeConfig = new MazeConfigure();
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("src/maps/" + this.map));
+            String line = reader.readLine();
+            Integer[] size = null;
+            try
+            {
+                size = findNumbers(line);
+            }
+            catch (Exception e)
+            {
+                System.err.println(e);
+                return;
+            }
+
+            this.maxRows = size[0];
+            this.maxCols = size[1];
+            System.out.println("ROWS: " + this.maxRows + " COLS: " + this.maxCols);
+
+            mazeConfig.startReading(this.maxRows,this.maxCols);
+            while (line != null)
+            {
+                System.out.println(line);
+                line = reader.readLine();
+                mazeConfig.processLine(line);
+            }
+            this.maze = mazeConfig;
+            mazeConfig.stopReading();
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

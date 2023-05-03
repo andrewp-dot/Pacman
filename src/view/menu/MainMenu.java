@@ -3,6 +3,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 
 /**
@@ -16,8 +17,8 @@ public class MainMenu  extends Menu {
     private Text title;
     */
 
-    public MainMenu(int minWidth, int minHeight) {
-        super(minWidth,minHeight);
+    public MainMenu(int minWidth, int minHeight, Stage stage) {
+        super(minWidth,minHeight,stage);
     }
 
     /**
