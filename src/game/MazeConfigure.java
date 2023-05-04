@@ -13,7 +13,7 @@ import game.fieldObjects.PacmanObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MazeConfigure implements Maze {
+public class MazeConfigure{
     private int rows = 0;
     private int cols = 0;
     private int read_lines = 0;
@@ -28,7 +28,33 @@ public class MazeConfigure implements Maze {
         for(ArrayList<Field> row: map) {
             if(row.size() != this.cols) return null;
         }
-        return this;
+
+        // converts arrayList to array
+        Field[][] mazeMap = new Field[rows][cols];
+        for (int i = 0;i<rows;i++){
+            for (int j =0;j<cols;j++){
+                mazeMap[i][j] = map.get(i).get(j);
+            }
+        }
+        // create maze
+        MazeClass mazeClass = new MazeClass(mazeMap, rows, cols, pacman, ghosts, keys);
+
+        // TODO add Observer
+        // add Maze references to objects in mazeClass
+        for (int i=0;i<mazeClass.getRowCount();i++){
+            for(int j=0;j<mazeClass.getColCount();j++){
+                mazeClass.getField(i,j).setMaze(mazeClass);
+            }
+        }
+        mazeClass.getPacman().setMaze(mazeClass);
+        for(KeyObject key :mazeClass.getKeys()){
+            key.setMaze(mazeClass);
+        }
+        for(GhostObject ghost: mazeClass.getGhosts()){
+            ghost.setMaze(mazeClass);
+        }
+
+        return mazeClass;
     }
 
     /**
@@ -66,13 +92,13 @@ public class MazeConfigure implements Maze {
                 {
                     this.map.get(read_lines).add(new StartField(read_lines,col+1));
                     PacmanObject pacman = new PacmanObject(read_lines,col+1);
-                    pacman.setMaze(this);
+//                    pacman.setMaze(this);
                     this.pacman = pacman;
                     this.map.get(read_lines).get(col+1).put(pacman);
                 }
                 else this.map.get(read_lines).add(new PathField(read_lines,col+1));
             }
-            this.map.get(read_lines).get(col+1).setMaze(this);
+//            this.map.get(read_lines).get(col+1).setMaze(this);
         }
         this.map.get(read_lines).add(new WallField(read_lines,cols-1));
 
@@ -107,28 +133,28 @@ public class MazeConfigure implements Maze {
         return true;
     }
 
-    @Override
-    public Field getField(int row, int col) {
-        if(row >= this.rows || col >= this.cols ) return null;
-        return map.get(row).get(col);
-    }
+//    @Override
+//    public Field getField(int row, int col) {
+//        if(row >= this.rows || col >= this.cols ) return null;
+//        return map.get(row).get(col);
+//    }
 
-    @Override
-    public int getRowCount() {
-        return this.rows;
-    }
+//    @Override
+//    public int getRowCount() {
+//        return this.rows;
+//    }
 
-    @Override
-    public int getColCount() {
-        return this.cols;
-    }
+//    @Override
+//    public int getColCount() {
+//        return this.cols;
+//    }
 
-    @Override
-    public List<GhostObject> getGhosts() { return this.ghosts; }
+//    @Override
+//    public List<GhostObject> getGhosts() { return this.ghosts; }
 
-    @Override
-    public List<KeyObject> getKeys() { return this.keys; }
+//    @Override
+//    public List<KeyObject> getKeys() { return this.keys; }
 
-    @Override
-    public PacmanObject getPacman() { return this.pacman; }
+//    @Override
+//    public PacmanObject getPacman() { return this.pacman; }
 }

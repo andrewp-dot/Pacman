@@ -198,7 +198,7 @@ public class MazePresenter {
                 line = reader.readLine();
                 mazeConfig.processLine(line);
             }
-            this.maze = mazeConfig;
+            this.maze = mazeConfig.createMaze();
             this.maxRows = size[0] + 2;
             this.maxCols = size[1] + 2;
             mazeConfig.stopReading();
