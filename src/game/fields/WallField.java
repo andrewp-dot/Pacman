@@ -55,6 +55,12 @@ public class WallField implements Field {
         ref = maze;
     }
 
+    @Override
+    public int getRow() { return  this.row; }
+
+    @Override
+    public int getCol() { return this.col; }
+
     /**
      * {@inheritDoc}
      */

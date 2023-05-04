@@ -2,17 +2,17 @@
     -fx-background-color: rgb(100,100,255);
 }
 #pathField {
-    -fx-fill: WHITE;
+    -fx-background-color: red;
 }
 
 #startField {
-    -fx-fill: chocolate;
+    -fx-background-color: chocolate;
 }
 
 #endField {
-    -fx-fill: chartreuse;
+    -fx-background-color: chartreuse;
 }
 
 #wallField {
-    -fx-fill: black;
+    -fx-background-color: black;
 }

@@ -1,143 +1,109 @@
 package view;
 import game.common.Field;
+import game.fields.EndField;
+import game.fields.PathField;
+import game.fields.StartField;
+import game.fields.WallField;
 import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 import javafx.scene.Scene;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /* Custom imports */
 import game.MazeConfigure;
 import game.common.Maze;
-import view.fields.FieldView;
+import utils.Observer;
 
 /**
  * TODO:
+ * Fix rendering with maze objects
  * attach Maze presenter to specific maze
  */
-public class MazePresenter {
+public class MazePresenter implements Observer {
 
-    /**
-     *  Default size of field in px
-     */
-    int sideSize = 25;
-    ArrayList<ArrayList<Rectangle>> fields = new ArrayList<>(1);
-
-    //change this values to test
-    int maxRows;
-    int maxCols;
-    int rowNum;
-    int columnNum;
+    private final int sideSize = 25;
+    StackPane[][] fields = null;
     String map;
     // attached maze
     Maze maze;
 
+    @Override
+    public void update(Object obj) {
+
+    }
+
+    public static final class FieldType {
+        public static final String WALL = "wallField";
+        public static final String PATH = "pathField";
+        public static final String START = "startField";
+        public static final String END = "endField";
+    }
+
     //change this to size ( rows:height x cols: width);
     public MazePresenter(String map) {
         this.map = map;
-        this.rowNum = 0;
-        this.columnNum = 0;
         setupMaze();
     }
 
     public Scene CreatePacmanScene(){
+
         //TODO: use 1 root pane and then hbox and grid or whatever
         GridPane layout = new GridPane();
+
         //TODO: use update
-        layout.add(new Text("Score"),  0, 0, GridPane.REMAINING, 1);
+        //layout.add(new Text("Score"),  0, 0, GridPane.REMAINING, 1);
         layout.setPadding(new Insets(10,10,10,10));
 
         //layout.setGridLinesVisible(true);
         addFieldRepresentation();
 
-        for (ArrayList<Rectangle> rectangles : fields)
+        renderMaze(layout, fields);
+
+        for (int row = 0; row < maze.getColCount(); row++)
         {
-            for (Rectangle field : rectangles)
+            for (int col = 0; col < maze.getRowCount(); col++)
             {
-                System.out.println(field.getId());
+                Character ch = 'W';
+                if(fields[row][col].getId() == FieldType.PATH) ch = '.';
+                else if(fields[row][col].getId() == FieldType.START) ch = 'S';
+                else if(fields[row][col].getId() == FieldType.END) ch = 'E';
+                System.out.print(ch);
             }
+            System.out.println();
         }
 
-        renderMaze(layout, fields);
         Scene pacman_scene = new Scene(layout);
         pacman_scene.getStylesheets().add("styles/maze.css");
         System.out.println("PacmanWindow created.");
         return pacman_scene;
     }
 
-    public void setMaze(Maze maze)
-    {
-        this.maze = maze;
-    }
+    public void setMaze(Maze maze) { this.maze = maze; }
 
     /**
      * Renders pacman maze
      * @param layout - grid pane for pacman maze
      * @param fields - array of fields to be rendered as rectangle
      */
-    private void renderMaze(GridPane layout,  ArrayList<ArrayList<Rectangle>> fields)
+    private void renderMaze(GridPane layout, StackPane[][] fields)
     {
-        int btn_row_num = 0;
-        for(int i = 0; i < fields.size(); i++)
+        int col = 0;
+        for(int row = 0; row < fields.length; row++)
         {
-            for(Rectangle field: fields.get(i)) {
-                GridPane.setConstraints(field,btn_row_num,i);
-                btn_row_num += 1;
-                layout.add(field,(int)field.getX() ,(int)field.getY() + 4);
+            for(StackPane field: fields[row]) {
+                GridPane.setConstraints(field,col ,row);
+                layout.add(field,col,row);
+                col += 1;
             }
-            btn_row_num = 0;
+            col = 0;
         }
-    }
-
-    /**
-     * Adds field as Rectangle to fields array
-     */
-    private void addField(Field field)
-    {
-        if(this.rowNum >= maxRows)
-        {
-            System.err.println("Max number of rows has been reached.");
-            return;
-        }
-
-        if(this.fields.size() == 0){
-            this.fields.add(rowNum,new ArrayList<>(0));
-        }
-
-        else if(this.columnNum >= maxCols )
-        {
-            this.fields.add(rowNum,new ArrayList<>(0));
-            rowNum += 1;
-            columnNum = 0;
-        }
-        Rectangle fieldView = FieldView.getFieldView(field);
-        setupField(fieldView);
-        this.fields.get(rowNum).add(fieldView);
-        columnNum += 1;
-    }
-
-    /**
-     * Sets basic paramas and mouse events to field
-     * @param field - field got by maze
-     */
-    private void setupField(Rectangle field)
-    {
-        // setup field
-        field.setHeight(sideSize);
-        field.setWidth(sideSize);
-
-        field.setOnMouseClicked(mouseEvent ->
-                System.out.println("x: "+ field.getX() + "y: " + field.getY() + " id:" + field.getId())
-        );
-        field.setX(this.columnNum);
-        field.setY(this.rowNum);
     }
 
     private Integer[] findNumbers(String str) throws Exception
@@ -175,48 +141,80 @@ public class MazePresenter {
     private void setupMaze()
     {
         MazeConfigure mazeConfig = new MazeConfigure();
-
         try {
             BufferedReader reader = new BufferedReader(new FileReader("src/maps/" + this.map));
+
             String line = reader.readLine();
+            System.out.println(line);
             Integer[] size;
-            try
-            {
+            try {
                 size = findNumbers(line);
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 System.err.println(e.getMessage());
                 return;
             }
 
+            // load maze
             mazeConfig.startReading(size[0],size[1]);
-
+            line = reader.readLine();
+            System.out.println(line);
             while (line != null)
             {
                 System.out.println(line);
-                line = reader.readLine();
                 mazeConfig.processLine(line);
+                line = reader.readLine();
+
             }
             this.maze = mazeConfig.createMaze();
             this.maxRows = size[0] + 2;
             this.maxCols = size[1] + 2;
             mazeConfig.stopReading();
+            this.maze = mazeConfig;
+            this.fields = new StackPane[this.maze.getRowCount()][this.maze.getColCount()];
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Adds field as Rectangle to fields array
+     */
+
+    //TODO: FIX THIS METHOD
+    private void addField(Field field)
+    {
+        StackPane tile = new StackPane();
+        setupField(tile,field.getRow(),field.getCol());
+        if(field instanceof WallField) tile.setId(FieldType.WALL);
+        else if (field instanceof PathField) {
+            if (field instanceof StartField) tile.setId(FieldType.START);
+            else if (field instanceof EndField) tile.setId(FieldType.END);
+            else tile.setId(FieldType.PATH);
+        }
+        this.fields[field.getRow()][field.getCol()] = tile;
+    }
+
+    /**
+     * Sets basic params and mouse events to field
+     * @param tile Field got by maze
+     */
+    private void setupField(StackPane tile, int row, int col)
+    {
+        tile.setPrefHeight(sideSize);
+        tile.setPrefWidth(sideSize);
+        tile.setOnMouseClicked(mouseEvent ->
+                System.out.println("x: " + col + "y: "  + row)
+        );
+    }
     private void addFieldRepresentation()
     {
-        System.out.println(maze.getRowCount());
-        System.out.println(maze.getColCount());
-        for (int col = 0; col < maze.getColCount(); col++)
+        for (int row = 0; row < maze.getColCount(); row++)
         {
-            for (int row = 0; row < maze.getRowCount(); row++)
+            for (int col = 0; col < maze.getRowCount(); col++)
             {
-                addField(this.maze.getField(col,row));
+                addField(this.maze.getField(row,col));
             }
         }
     }

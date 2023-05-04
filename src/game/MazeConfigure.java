@@ -63,7 +63,7 @@ public class MazeConfigure{
     private void add_horizontal_wall(int row_index){
         this.map.add(row_index,new ArrayList<>(0));
         for (int i = 0; i < cols; i++) {
-            this.map.get(row_index).add(new WallField(0,i));
+            this.map.get(row_index).add(new WallField(row_index,i));
         }
         read_lines++;
     }

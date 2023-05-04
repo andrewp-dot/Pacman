@@ -75,4 +75,16 @@ public interface Field {
      * @param maze maze to set the reference to.
      */
     void setMaze(Maze maze);
+
+    /**
+     *  Gets row number of {@link Field}
+     * @return col number
+     */
+    int getRow();
+
+    /**
+     *  Gets col number of {@link Field}
+     * @return
+     */
+    int getCol();
 }
