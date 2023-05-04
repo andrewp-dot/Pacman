@@ -167,10 +167,7 @@ public class MazePresenter implements Observer {
 
             }
             this.maze = mazeConfig.createMaze();
-            this.maxRows = size[0] + 2;
-            this.maxCols = size[1] + 2;
             mazeConfig.stopReading();
-            this.maze = mazeConfig;
             this.fields = new StackPane[this.maze.getRowCount()][this.maze.getColCount()];
             reader.close();
         } catch (IOException e) {
