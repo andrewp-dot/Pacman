@@ -32,3 +32,13 @@
     -fx-background-image: url("/imgs/goBackIcon.png");
     -fx-background-size: cover;
 }
+
+#backButton:hover {
+    -fx-background-color: silver;
+    -fx-background-image: url("/imgs/goBackIcon.png");
+    -fx-background-size: cover;
+}
+
+#navBar {
+    -fx-background-color: transparent;
+}

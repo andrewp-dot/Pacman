@@ -49,6 +49,7 @@ public class Main extends Application{
         Scene mainMenuScene = mainMenu.createMenuScene();
         LevelMenu levelSetup = new LevelMenu(windowWidth,windowHeight,window,mainMenuScene);
         mainMenu.getButtonByTitle("Play").setOnMouseClicked(mouseEvent -> window.setScene(levelSetup.getScene()));
+        mainMenu.getButtonByTitle("Exit").setOnMouseClicked(mouseEvent -> close_handler());
         return mainMenuScene;
     }
 

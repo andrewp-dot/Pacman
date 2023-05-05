@@ -1,22 +1,19 @@
 package view;
 import game.common.Field;
-import game.fieldObjects.PacmanObject;
 import game.fields.EndField;
 import game.fields.PathField;
 import game.fields.StartField;
 import game.fields.WallField;
 import javafx.geometry.Insets;
-import javafx.scene.layout.GridPane;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.layout.*;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -30,14 +27,15 @@ import utils.Observer;
 
 /**
  * TODO:
- * Fix rendering with maze objects
- * attach Maze presenter to specific maze
+ * Alert box for esc
+ * gui in new thread
+ * add buttons to move pacman
  */
 public class MazePresenter implements Observer {
 
-    private final int sideSize = 25;
+    private final int sideSize = 40 ;
     private StackPane[][] fields = null;
-    private String map;
+    private final String map;
     private Maze maze;
     private int click = 0;
 
@@ -66,19 +64,14 @@ public class MazePresenter implements Observer {
     public Scene CreatePacmanScene(){
         VBox root = new VBox();
         HBox scoreBar = createScoreBar();
-        //TODO: use 1 root pane and then hbox and grid or whatever
         GridPane layout = new GridPane();
 
-        //TODO: use update
-        //layout.add(new Text("Score"),  0, 0, GridPane.REMAINING, 1);
         layout.setPadding(new Insets(10,10,10,10));
 
-        //layout.setGridLinesVisible(true);
         addFieldRepresentation();
-
         renderMaze(layout, fields);
-
         root.getChildren().addAll(scoreBar,layout);
+
         Scene pacman_scene = new Scene(root);
         pacman_scene.getStylesheets().add("styles/maze.css");
         System.out.println("PacmanWindow created.");
@@ -108,23 +101,54 @@ public class MazePresenter implements Observer {
 
     private HBox createScoreBar()
     {
-        StackPane score = new StackPane();
-        Text txt = new Text("Time: Cilcked: " + click);
-        score.getChildren().add(txt);
+        StackPane score = createScoreBarItem("Time: Cilcked: " + click,Pos.TOP_LEFT);
         score.setOnMouseClicked(mouseEvent ->
         {
             //TODO: set timer here
             click += 1;
-            txt.setText("Time: Cilcked: " + click);
+            getTextFromPane(score).setText("Time: Clicked: " + click);
         });
 
-        StackPane hearts = new StackPane();
-        hearts.getChildren().add(new Text("Hearts: HEARTSNUM"));
+        StackPane keyPick = createScoreBarItem("Key: no",Pos.CENTER);
+        StackPane hearts = createScoreBarItem("Hearts: HEARTSNUM",Pos.TOP_RIGHT);
 
-        HBox  scoreBar = new HBox(score,hearts);
+        HBox scoreBar = new HBox(score,keyPick,hearts);
+        scoreBar.setHgrow(score, Priority.ALWAYS);
+        scoreBar.setHgrow(hearts, Priority.ALWAYS);
         scoreBar.setId("scoreBar");
         scoreBar.setSpacing(10);
         return scoreBar;
+    }
+
+    /**
+     * Creates score bar item
+     * @param text output text
+     * @return score bar item stack pane
+     */
+    private StackPane createScoreBarItem(String text, Pos alingment)
+    {
+        StackPane scoreBarOption = new StackPane();
+        scoreBarOption.setPrefWidth(100);
+        scoreBarOption.setAlignment(alingment);
+        Text txt = new Text(text);
+        txt.setTextAlignment(TextAlignment.CENTER);
+        txt.setFill(Color.rgb(220,220,220));
+        scoreBarOption.getChildren().add(txt);
+        return scoreBarOption;
+    }
+
+    /**
+     * Find text in pane children
+     * @param pane searched pane
+     * @return text object
+     */
+    private Text getTextFromPane(StackPane pane)
+    {
+        for(Node child: pane.getChildren())
+        {
+            if(child instanceof Text) return (Text) child;
+        }
+        return new Text();
     }
 
     private Integer[] findNumbers(String str) throws Exception

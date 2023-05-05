@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /* javafx */
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,15 +17,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import view.MazePresenter;
 public class LevelMenu extends Menu {
-    private Scene scene;
-    private Scene mainMenu;
-    private ArrayList<String> maps = new ArrayList<>(0);
+    private final Scene scene;
+    private final Scene mainMenu;
+    private final ArrayList<String> maps = new ArrayList<>(0);
     public LevelMenu(int minWidth, int minHeight, Stage stage, Scene mainMenu)
     {
         super(minWidth,minHeight, stage);
         this.loadMaps();
         this.mainMenu = mainMenu;
         this.scene = createMenuScene();
+        System.out.println("SETUP MENU");
     }
 
     public Scene getScene() { return scene; }
@@ -49,16 +51,15 @@ public class LevelMenu extends Menu {
 
     /**
      * Sets up backButton that points to scene of displayScene parameter
-     * @param displayScene
+     * @param displayScene scene to be displayed after clicking on button
      * @return back button
      */
     private Button backButton(Scene displayScene)
     {
         Button goBack = new Button();
+        goBack.setAlignment(Pos.TOP_LEFT);
         goBack.setId("backButton");
-        goBack.setOnMouseClicked(mouseEvent -> {
-            this.window.setScene(displayScene);
-        });
+        goBack.setOnMouseClicked(mouseEvent -> this.window.setScene(displayScene));
         return goBack;
     }
 
@@ -70,12 +71,15 @@ public class LevelMenu extends Menu {
     {
         Button goBackButton = backButton(this.mainMenu);
         StackPane navBar = new StackPane(goBackButton);
+        navBar.setPadding(new Insets(10,10,0,10));
+        navBar.setAlignment(Pos.TOP_LEFT);
+        navBar.setId("navBar");
         return navBar;
     }
 
     /**
-     * Creates scrolable menu for level choose
-     * @return
+     * Creates scrollable menu for level choose
+     * @return scroll pane
      */
     private ScrollPane createLevelScrollPane()
     {
@@ -105,6 +109,7 @@ public class LevelMenu extends Menu {
      */
     private void loadMaps()
     {
+
         File src = new File("src");
         File mapFolder = new File(src,"maps");
         File[] listOfFiles = mapFolder.listFiles();
@@ -126,6 +131,7 @@ public class LevelMenu extends Menu {
         for (File listOfFile : listOfFiles)
         {
             String fileName = listOfFile.getName();
+            System.out.println(fileName);
             if (fileName.matches("^map[0-9]*.txt$"))
             {
                 maps.add(fileName);
@@ -134,7 +140,7 @@ public class LevelMenu extends Menu {
     }
 
     /**
-     * Print options of menu
+     * Print options of menu - debugging function
      */
     private void printOptions()
     {
@@ -161,12 +167,6 @@ public class LevelMenu extends Menu {
 
         });
     }
-
-    /**
-     * Gets map file name based on number of level
-     * @param lvlNum - number of level
-     * @return - name of map to be loaded
-     */
 
     /**
      * Sets buttons events and id's, id is equal to index in maps array
@@ -196,7 +196,7 @@ public class LevelMenu extends Menu {
 
     /**
      * creates maze of chosen level from menu
-     * @param btn
+     * @param btn - button used for level number by its ID
      * @return scene of level
      */
     private Scene createLevel(Button btn)

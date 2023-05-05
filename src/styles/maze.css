@@ -1,23 +1,30 @@
 .root{
-    -fx-background-color: rgb(100,100,255);
+    -fx-background-color: radial-gradient(center 50% 50%, radius 80%, #000000, rgb(70,50,50));
 }
 #pathField {
-    -fx-background-color: red;
+    -fx-background-color:  rgb(200,200,200);
 }
 
 #startField {
-    -fx-background-color: chocolate;
+    -fx-background-color: rgb(120,110,80);
 }
 
 #endField {
-    -fx-background-color: chartreuse;
+    -fx-background-color: rgb(20,150,0);
 }
 
 #wallField {
-    -fx-background-color: black;
+    -fx-background-image: url("/imgs/wall.png ");
+    -fx-background-size: cover;
+    -fx-background-color: rgb(70,50,50);
 }
 
 #scoreBar {
     -fx-background-color: transparent;
     -fx-fill: grey;
 }
+
+#score , #hearts {
+    -fx-text-fill: #D0D0D0;
+}
+
