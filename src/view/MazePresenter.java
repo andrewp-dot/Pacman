@@ -38,8 +38,12 @@ public class MazePresenter implements Observer {
     private final String map;
     private Maze maze;
     private int click = 0;
+    private final Circle pacmanView;
 
-
+    /**
+     * TODO:
+     * write update function for observer
+     */
     @Override
     public void update(Object obj) {
         //TODO: delete old pacman
@@ -55,10 +59,17 @@ public class MazePresenter implements Observer {
         public static final String END = "endField";
     }
 
-    //change this to size ( rows:height x cols: width);
     public MazePresenter(String map) {
         this.map = map;
+        this.pacmanView = createPacmanView();
         setupMaze();
+    }
+
+    public Circle createPacmanView()
+    {
+        Circle pacmanView = new Circle(15);
+        pacmanView.setId("pacman");
+        return pacmanView;
     }
 
     public Scene CreatePacmanScene(){
@@ -113,8 +124,8 @@ public class MazePresenter implements Observer {
         StackPane hearts = createScoreBarItem("Hearts: HEARTSNUM",Pos.TOP_RIGHT);
 
         HBox scoreBar = new HBox(score,keyPick,hearts);
-        scoreBar.setHgrow(score, Priority.ALWAYS);
-        scoreBar.setHgrow(hearts, Priority.ALWAYS);
+        HBox.setHgrow(score, Priority.ALWAYS);
+        HBox.setHgrow(hearts, Priority.ALWAYS);
         scoreBar.setId("scoreBar");
         scoreBar.setSpacing(10);
         return scoreBar;
@@ -231,7 +242,11 @@ public class MazePresenter implements Observer {
         setupField(tile,field.getRow(),field.getCol());
         if(field instanceof WallField) tile.setId(FieldType.WALL);
         else if (field instanceof PathField) {
-            if (field instanceof StartField) tile.setId(FieldType.START);
+            if (field instanceof StartField)
+            {
+                tile.getChildren().add(pacmanView);
+                tile.setId(FieldType.START);
+            }
             else if (field instanceof EndField) tile.setId(FieldType.END);
             else tile.setId(FieldType.PATH);
         }
@@ -247,9 +262,19 @@ public class MazePresenter implements Observer {
         tile.setPrefHeight(sideSize);
         tile.setPrefWidth(sideSize);
         tile.setOnMouseClicked(mouseEvent ->
-                System.out.println("x: " + col + "y: "  + row)
-        );
+        {
+            System.out.println("x: " + col + "y: "  + row);
+            if(tile.getId() != FieldType.WALL && tile.getChildren().isEmpty())
+            {
+                tile.getChildren().add(pacmanView);
+                tile.requestLayout();
+            }
+        });
     }
+
+    /**
+     * adds field to array of field representation
+     */
     private void addFieldRepresentation()
     {
         for (int row = 0; row < maze.getColCount(); row++)

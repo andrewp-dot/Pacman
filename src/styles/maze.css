@@ -24,7 +24,8 @@
     -fx-fill: grey;
 }
 
-#score , #hearts {
-    -fx-text-fill: #D0D0D0;
+
+#pacman {
+    -fx-fill: yellow;
 }
 
