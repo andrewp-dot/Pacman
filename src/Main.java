@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /* Custom imports */
@@ -23,10 +24,8 @@ public class Main extends Application{
             windowEvent.consume();
             close_handler();
         });
-        Menu mainMenu = basicMenuSetup();
-        basicMenuSetup();
-
-        window.setScene(mainMenu.createMenuScene());
+        Scene mainMenu = basicMenuSetup();
+        window.setScene(mainMenu);
         window.show();
     }
 
@@ -40,16 +39,17 @@ public class Main extends Application{
     /**
      * Set ups standard menu
      */
-    private Menu basicMenuSetup()
+    private Scene basicMenuSetup()
     {
         Menu mainMenu = new MainMenu(windowWidth,windowHeight,window);
         mainMenu.setTitle("Main Pacmenu");
         mainMenu.addOptions("Play","Settings","Exit");
 
         // change this to level setups
-        LevelMenu levelSetup = new LevelMenu(windowWidth,windowHeight,window);
+        Scene mainMenuScene = mainMenu.createMenuScene();
+        LevelMenu levelSetup = new LevelMenu(windowWidth,windowHeight,window,mainMenuScene);
         mainMenu.getButtonByTitle("Play").setOnMouseClicked(mouseEvent -> window.setScene(levelSetup.getScene()));
-        return mainMenu;
+        return mainMenuScene;
     }
 
     public static void main(String[] args){

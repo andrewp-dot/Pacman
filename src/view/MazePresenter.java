@@ -1,5 +1,6 @@
 package view;
 import game.common.Field;
+import game.fieldObjects.PacmanObject;
 import game.fields.EndField;
 import game.fields.PathField;
 import game.fields.StartField;
@@ -7,10 +8,15 @@ import game.fields.WallField;
 import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -19,6 +25,7 @@ import java.util.regex.Pattern;
 /* Custom imports */
 import game.MazeConfigure;
 import game.common.Maze;
+import javafx.scene.text.TextAlignment;
 import utils.Observer;
 
 /**
@@ -29,14 +36,18 @@ import utils.Observer;
 public class MazePresenter implements Observer {
 
     private final int sideSize = 25;
-    StackPane[][] fields = null;
-    String map;
-    // attached maze
-    Maze maze;
+    private StackPane[][] fields = null;
+    private String map;
+    private Maze maze;
+    private int click = 0;
+
 
     @Override
     public void update(Object obj) {
-
+        //TODO: delete old pacman
+        Field pacman = this.maze.getPacman().getField();
+        Circle pacmanView = new Circle(10);
+        this.fields[pacman.getRow()][pacman.getCol()].getChildren().add(pacmanView);
     }
 
     public static final class FieldType {
@@ -53,7 +64,8 @@ public class MazePresenter implements Observer {
     }
 
     public Scene CreatePacmanScene(){
-
+        VBox root = new VBox();
+        HBox scoreBar = createScoreBar();
         //TODO: use 1 root pane and then hbox and grid or whatever
         GridPane layout = new GridPane();
 
@@ -66,20 +78,8 @@ public class MazePresenter implements Observer {
 
         renderMaze(layout, fields);
 
-        for (int row = 0; row < maze.getColCount(); row++)
-        {
-            for (int col = 0; col < maze.getRowCount(); col++)
-            {
-                Character ch = 'W';
-                if(fields[row][col].getId() == FieldType.PATH) ch = '.';
-                else if(fields[row][col].getId() == FieldType.START) ch = 'S';
-                else if(fields[row][col].getId() == FieldType.END) ch = 'E';
-                System.out.print(ch);
-            }
-            System.out.println();
-        }
-
-        Scene pacman_scene = new Scene(layout);
+        root.getChildren().addAll(scoreBar,layout);
+        Scene pacman_scene = new Scene(root);
         pacman_scene.getStylesheets().add("styles/maze.css");
         System.out.println("PacmanWindow created.");
         return pacman_scene;
@@ -104,6 +104,27 @@ public class MazePresenter implements Observer {
             }
             col = 0;
         }
+    }
+
+    private HBox createScoreBar()
+    {
+        StackPane score = new StackPane();
+        Text txt = new Text("Time: Cilcked: " + click);
+        score.getChildren().add(txt);
+        score.setOnMouseClicked(mouseEvent ->
+        {
+            //TODO: set timer here
+            click += 1;
+            txt.setText("Time: Cilcked: " + click);
+        });
+
+        StackPane hearts = new StackPane();
+        hearts.getChildren().add(new Text("Hearts: HEARTSNUM"));
+
+        HBox  scoreBar = new HBox(score,hearts);
+        scoreBar.setId("scoreBar");
+        scoreBar.setSpacing(10);
+        return scoreBar;
     }
 
     private Integer[] findNumbers(String str) throws Exception

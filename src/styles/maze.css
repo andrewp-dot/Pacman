@@ -16,3 +16,8 @@
 #wallField {
     -fx-background-color: black;
 }
+
+#scoreBar {
+    -fx-background-color: transparent;
+    -fx-fill: grey;
+}

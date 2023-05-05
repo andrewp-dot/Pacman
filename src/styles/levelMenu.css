@@ -19,6 +19,16 @@
     -fx-background-color: rgb(50,100,150);
 }
 
-#vbox {
+#vboxLevelMenu,
+#root {
     -fx-background-color: rgb(50,100,150);
+}
+
+#backButton {
+    -fx-min-width: 50;
+    -fx-max-width: 50;
+    -fx-min-height: 50;
+    -fx-max-height: 50;
+    -fx-background-image: url("/imgs/goBackIcon.png");
+    -fx-background-size: cover;
 }

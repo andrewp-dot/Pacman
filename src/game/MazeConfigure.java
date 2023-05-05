@@ -5,6 +5,7 @@ import game.common.Field;
 import game.common.Maze;
 import game.fieldObjects.GhostObject;
 import game.fieldObjects.KeyObject;
+import game.fields.EndField;
 import game.fields.PathField;
 import game.fields.StartField;
 import game.fields.WallField;
@@ -92,11 +93,19 @@ public class MazeConfigure{
                 {
                     this.map.get(read_lines).add(new StartField(read_lines,col+1));
                     PacmanObject pacman = new PacmanObject(read_lines,col+1);
-//                    pacman.setMaze(this);
+//                   pacman.setMaze(this);
                     this.pacman = pacman;
                     this.map.get(read_lines).get(col+1).put(pacman);
                 }
-                else this.map.get(read_lines).add(new PathField(read_lines,col+1));
+                else if(line.charAt(col) == 'T') this.map.get(read_lines).add(new EndField(read_lines,col+1));
+                else {
+                    this.map.get(read_lines).add(new PathField(read_lines,col+1));
+                    if(line.charAt(col) == 'G')
+                    {
+                        GhostObject ghost = new GhostObject(read_lines,col + 1);
+                        this.map.get(read_lines).get(col+1).put(ghost);
+                    }
+                }
             }
 //            this.map.get(read_lines).get(col+1).setMaze(this);
         }

@@ -9,17 +9,21 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import view.MazePresenter;
 public class LevelMenu extends Menu {
-    Scene scene;
-    ArrayList<String> maps = new ArrayList<>(0);
-    public LevelMenu(int minWidth, int minHeight, Stage stage)
+    private Scene scene;
+    private Scene mainMenu;
+    private ArrayList<String> maps = new ArrayList<>(0);
+    public LevelMenu(int minWidth, int minHeight, Stage stage, Scene mainMenu)
     {
         super(minWidth,minHeight, stage);
         this.loadMaps();
+        this.mainMenu = mainMenu;
         this.scene = createMenuScene();
     }
 
@@ -30,28 +34,70 @@ public class LevelMenu extends Menu {
     @Override
     public Scene createMenuScene()
     {
+        BorderPane root = new BorderPane();
+        StackPane navbar = createNavBar();
+        root.setTop(navbar);
+
+        ScrollPane scrollPane = createLevelScrollPane();
+        root.setCenter(scrollPane);
+        root.setId("root");
+
+        Scene levelMenu = new Scene(root,this.minHeight,this.minWidth);
+        levelMenu.getStylesheets().add("styles/levelMenu.css");
+        return levelMenu;
+    }
+
+    /**
+     * Sets up backButton that points to scene of displayScene parameter
+     * @param displayScene
+     * @return back button
+     */
+    private Button backButton(Scene displayScene)
+    {
+        Button goBack = new Button();
+        goBack.setId("backButton");
+        goBack.setOnMouseClicked(mouseEvent -> {
+            this.window.setScene(displayScene);
+        });
+        return goBack;
+    }
+
+    /**
+     * Creates navigation bar
+     * @return navbar
+     */
+    private StackPane createNavBar()
+    {
+        Button goBackButton = backButton(this.mainMenu);
+        StackPane navBar = new StackPane(goBackButton);
+        return navBar;
+    }
+
+    /**
+     * Creates scrolable menu for level choose
+     * @return
+     */
+    private ScrollPane createLevelScrollPane()
+    {
         VBox layout = new VBox();
         layout.setMaxSize(this.minHeight,this.minWidth);
         layout.setAlignment(Pos.CENTER);
-        layout.setId("vbox");
+        layout.setId("vboxLevelMenu");
 
-        // set title
         if(this.title != null) layout.getChildren().add(title);
+
+        addButtonsToLayout(layout);
 
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(layout);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
+        scrollPane.setId("root");
 
         layout.setMaxHeight(Double.MAX_VALUE);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-
-        addButtonsToLayout(layout);
-
-        Scene levelMenu = new Scene(scrollPane,this.minHeight,this.minWidth);
-        levelMenu.getStylesheets().add("styles/levelMenu.css");
-        return levelMenu;
+        return scrollPane;
     }
 
     /**
@@ -136,6 +182,10 @@ public class LevelMenu extends Menu {
         }
     }
 
+    /**
+     * Adds button views to layout
+     * @param layout - pane, where buttons are added
+     */
     private void addButtonsToLayout(Pane layout)
     {
         for(Button btn: this.menuOptions )
@@ -144,6 +194,11 @@ public class LevelMenu extends Menu {
         }
     }
 
+    /**
+     * creates maze of chosen level from menu
+     * @param btn
+     * @return scene of level
+     */
     private Scene createLevel(Button btn)
     {
         MazePresenter maze = new MazePresenter(maps.get(Integer.parseInt(btn.getId())));
