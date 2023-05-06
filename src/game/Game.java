@@ -8,9 +8,7 @@ import utils.Observable;
 import utils.Observer;
 import view.Controller;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -34,6 +32,9 @@ public class Game {
     private int destinationCol;
     private Lock lock;
     // end of synchronized properties
+
+    private String changelogPath;
+    private BufferedWriter writer;
 
 
     private MazeClass maze;
@@ -61,6 +62,8 @@ public class Game {
         lock = new ReentrantLock();
         this.continuousMovement = continuousMovement;
         this.futureMoveSet = false;
+        this.changelogPath = null;
+        this.writer = null;
     }
 
     /**
@@ -69,31 +72,43 @@ public class Game {
      * @param file file to load maze from.
      */
     public void loadMaze(File file) throws Exception {
+        changelogPath = file.getAbsolutePath().substring(0,file.getAbsolutePath().length()-3) + "mazelog";
         MazeConfigure conf = new MazeConfigure();
         FileReader fr = new FileReader(file);
         BufferedReader buffr = new BufferedReader(fr);
 
+        this.writer = new BufferedWriter(new FileWriter(this.changelogPath));
+
         if (!buffr.ready()) {
+            writer.close();
             throw new Exception("File is empty.");
         }
 
         String line = buffr.readLine();
+        writer.write(line + "\n");
         String[] rowsCols = line.split(" ");
         if (rowsCols.length != 2) {
+            writer.close();
             throw new Exception("Invalid maze map format.");
         }
 
         conf.startReading(Integer.parseInt(rowsCols[0]), Integer.parseInt(rowsCols[1]));
         while (buffr.ready()) {
-            if (!conf.processLine(buffr.readLine())) {
+            line = buffr.readLine();
+            writer.write(line + "\n");
+            if (!conf.processLine(line)) {
+                writer.close();
                 throw new Exception("Invalid maze map format.");
             }
         }
 
         if (!conf.stopReading()) {
+            writer.close();
             throw new Exception("Invalid maze map format.");
         }
         maze = conf.createMaze();
+
+        buffr.close();
     }
 
     public MazeClass getMaze() {
@@ -218,6 +233,10 @@ public class Game {
     private void runTick() {
         if (terminate) {
             timer.cancel();
+            try {
+                writer.close();
+            }
+            catch (Exception ignored){}
             return;
         }
 
@@ -279,10 +298,36 @@ public class Game {
             }
         }
 
+        // write line to our changelog
+        StringBuilder log = new StringBuilder();
+        // pacman coordinates
+        log.append(maze.getPacman().getField().getRow()).append(" ").append(maze.getPacman().getField().getCol()).append(" ");
+        // all ghosts coordinates
+        for (GhostObject g: maze.getGhosts()){
+            log.append(g.getField().getRow()).append(" ").append(g.getField().getCol()).append(" ");
+        }
+        // all keys isPicked
+        for (KeyObject k: maze.getKeys()){
+            log.append(k.getIsPicked()? "Picked ":"Active ");
+        }
+        // pacman lives
+        log.append(maze.getPacman().getLives()).append("\n");
+        try{
+            writer.write(log.toString());
+        }
+        catch (Exception e){
+            System.out.println("Unable to write to file");
+            System.out.println(e.getMessage());
+        }
+
         // check losing condition
         if (maze.getPacman().getLives() <= 0) {
             timer.cancel();
             controller.gameEnded(false);
+            try {
+                writer.close();
+            }
+            catch (Exception ignored){}
             return;
         }
 
@@ -299,6 +344,10 @@ public class Game {
             if (allKeysPicked) {
                 timer.cancel();
                 controller.gameEnded(true);
+                try {
+                    writer.close();
+                }
+                catch (Exception ignored){}
                 return;
             }
         }

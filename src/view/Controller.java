@@ -9,45 +9,42 @@ import view.settings.Settings;
 
 import java.io.File;
 
-public class Controller
-{
+public class Controller {
     private File currentLevel;
     private Stage stage;
 
     private Scene levelMenuScene;
 
-    public Controller(Stage stage, Scene levelMenuScene)
-    {
+    public Controller(Stage stage, Scene levelMenuScene) {
         this.stage = stage;
         this.levelMenuScene = levelMenuScene;
     }
 
-    public void loadAndPlay(File file){
+    public void loadAndPlay(File file) {
         this.currentLevel = file;
         Game game = new Game(this, Settings.getContinuesMovement());
-        try{
+        try {
             game.loadMaze(file);
-        }
-        catch (Exception e){
+
+            MazePresenter mazePresenter = new MazePresenter(game, stage);
+            game.addObserver(mazePresenter);
+
+            game.play();
+        } catch (Exception e) {
             System.out.println("Error occurred while loading level:");
             System.out.println(e.getMessage());
             // TODO make into a pop-up window
             // TODO decide what to do next, return back to levelMenu
         }
-
-        MazePresenter mazePresenter = new MazePresenter(game, stage);
-        game.addObserver(mazePresenter);
-
-        game.play();
     }
 
-    public void gameEnded(boolean wasWon){
+    public void gameEnded(boolean wasWon) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 ShowResult showResult = new ShowResult(wasWon);
                 ShowResult.Decision decision = showResult.showAndWait();
-                if (decision == ShowResult.Decision.Restart){
+                if (decision == ShowResult.Decision.Restart) {
                     Task<Void> task = new Task<Void>() {
                         @Override
                         protected Void call() throws Exception {
@@ -56,8 +53,7 @@ public class Controller
                         }
                     };
                     new Thread(task).start();
-                }
-                else // next
+                } else // next
                 {
                     stage.setScene(levelMenuScene);
                 }
