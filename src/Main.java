@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import view.menu.MainMenu;
 import view.menu.Menu;
 import view.menu.LevelMenu;
+import view.settings.Settings;
 
 public class Main extends Application{
     // size of window in pixels
@@ -49,6 +50,9 @@ public class Main extends Application{
         Scene mainMenuScene = mainMenu.createMenuScene();
         LevelMenu levelSetup = new LevelMenu(windowWidth,windowHeight,window,mainMenuScene);
         mainMenu.getButtonByTitle("Play").setOnMouseClicked(mouseEvent -> window.setScene(levelSetup.getScene()));
+
+        Settings settings = new Settings(windowWidth,windowHeight,window,mainMenuScene);
+        mainMenu.getButtonByTitle("Settings").setOnMouseClicked(mouseEvent -> window.setScene(settings.getScene()));
         mainMenu.getButtonByTitle("Exit").setOnMouseClicked(mouseEvent -> close_handler());
         return mainMenuScene;
     }

@@ -26,7 +26,6 @@ public class LevelMenu extends Menu {
         this.loadMaps();
         this.mainMenu = mainMenu;
         this.scene = createMenuScene();
-        System.out.println("SETUP MENU");
     }
 
     public Scene getScene() { return scene; }
@@ -37,8 +36,8 @@ public class LevelMenu extends Menu {
     public Scene createMenuScene()
     {
         BorderPane root = new BorderPane();
-        StackPane navbar = createNavBar();
-        root.setTop(navbar);
+        NavBar navbar = new NavBar(this.window,mainMenu);
+        root.setTop(navbar.getNavbar());
 
         ScrollPane scrollPane = createLevelScrollPane();
         root.setCenter(scrollPane);
@@ -49,11 +48,12 @@ public class LevelMenu extends Menu {
         return levelMenu;
     }
 
+    /*
     /**
      * Sets up backButton that points to scene of displayScene parameter
      * @param displayScene scene to be displayed after clicking on button
      * @return back button
-     */
+
     private Button backButton(Scene displayScene)
     {
         Button goBack = new Button();
@@ -66,7 +66,7 @@ public class LevelMenu extends Menu {
     /**
      * Creates navigation bar
      * @return navbar
-     */
+
     private StackPane createNavBar()
     {
         Button goBackButton = backButton(this.mainMenu);
@@ -76,6 +76,7 @@ public class LevelMenu extends Menu {
         navBar.setId("navBar");
         return navBar;
     }
+    */
 
     /**
      * Creates scrollable menu for level choose
@@ -131,7 +132,6 @@ public class LevelMenu extends Menu {
         for (File listOfFile : listOfFiles)
         {
             String fileName = listOfFile.getName();
-            System.out.println(fileName);
             if (fileName.matches("^map[0-9]*.txt$"))
             {
                 maps.add(fileName);

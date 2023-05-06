@@ -1,0 +1,19 @@
+#backButton {
+    -fx-min-width: 50;
+    -fx-max-width: 50;
+    -fx-min-height: 50;
+    -fx-max-height: 50;
+    -fx-background-image: url("/imgs/goBackIconWHite.png");
+    -fx-background-size: cover;
+    -fx-background-color: transparent;
+    -fx-border-style: none;
+}
+
+#backButton:hover {
+    -fx-background-color: rgb(200,200,0);
+    -fx-background-image: url("/imgs/goBackIcon.png");
+}
+
+#navBar {
+    -fx-background-color: transparent;
+}

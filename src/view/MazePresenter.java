@@ -18,11 +18,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.scene.text.TextAlignment;
 
 /* Custom imports */
 import game.MazeConfigure;
 import game.common.Maze;
-import javafx.scene.text.TextAlignment;
 import utils.Observer;
 
 /**
@@ -177,11 +177,11 @@ public class MazePresenter implements Observer {
      * @param text output text
      * @return score bar item stack pane
      */
-    private StackPane createScoreBarItem(String text, Pos alingment)
+    private StackPane createScoreBarItem(String text, Pos alignment)
     {
         StackPane scoreBarOption = new StackPane();
         scoreBarOption.setPrefWidth(100);
-        scoreBarOption.setAlignment(alingment);
+        scoreBarOption.setAlignment(alignment);
         Text txt = new Text(text);
         txt.setTextAlignment(TextAlignment.CENTER);
         txt.setFill(Color.rgb(220,220,220));

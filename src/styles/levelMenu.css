@@ -24,21 +24,3 @@
     -fx-background-color: rgb(50,100,150);
 }
 
-#backButton {
-    -fx-min-width: 50;
-    -fx-max-width: 50;
-    -fx-min-height: 50;
-    -fx-max-height: 50;
-    -fx-background-image: url("/imgs/goBackIcon.png");
-    -fx-background-size: cover;
-}
-
-#backButton:hover {
-    -fx-background-color: silver;
-    -fx-background-image: url("/imgs/goBackIcon.png");
-    -fx-background-size: cover;
-}
-
-#navBar {
-    -fx-background-color: transparent;
-}

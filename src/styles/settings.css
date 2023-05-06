@@ -1,0 +1,32 @@
+#root {
+    -fx-background-color: rgb(50,100,150);
+    -fx-font-size: 20px;
+}
+
+#option {
+    -fx-background-color: rgb(25,75,125);
+    -fx-padding: 10 10 10 10;
+}
+
+.label, .check-box {
+    -fx-border-style: none;
+    -fx-text-fill: white;
+}
+
+.check-box > .box:hover {
+    -fx-background-color: #D0D0D0;
+}
+
+.check-box .box {
+    -fx-background-color: white;
+    -fx-border-color:grey;
+    -fx-border-radius:3px;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #kD0D0D0;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #28a3f4;
+}

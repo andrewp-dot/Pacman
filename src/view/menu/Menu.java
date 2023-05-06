@@ -12,7 +12,6 @@ public abstract class Menu {
     protected final int minHeight;
     protected final ArrayList<Button> menuOptions = new ArrayList<>();
     protected Text title;
-
     protected Stage window;
 
     public Menu(int minWidth, int minHeight, Stage stage)
