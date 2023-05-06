@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import view.settings.Settings;
 
 import java.io.File;
 
@@ -23,7 +24,7 @@ public class Controller
 
     public void loadAndPlay(File file){
         this.currentLevel = file;
-        Game game = new Game(this);
+        Game game = new Game(this, Settings.getContinuesMovement());
         try{
             game.loadMaze(file);
         }

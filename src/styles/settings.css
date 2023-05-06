@@ -24,7 +24,7 @@
 }
 
 .check-box:selected .mark {
-    -fx-background-color: #kD0D0D0;
+    -fx-background-color: #D0D0D0;
 }
 
 .check-box:selected .box {

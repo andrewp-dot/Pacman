@@ -25,6 +25,8 @@ public class Game {
     // properties below are synchronized, access strictly through getter and setter methods!!
     private MovementType pacmanMoveType;
     private Field.Direction pacmanMove;
+    private Field.Direction pacmanFutureMove;
+    private boolean futureMoveSet;
     private ArrayList<Field.Direction> pacmanMovs; // moves computed by A*
     private int pacmanMovsIndex; // index of the next move
     private boolean shouldMove;
@@ -39,6 +41,8 @@ public class Game {
     Random rand; // for ghost movement
     Timer timer;
 
+    private boolean continuousMovement;
+
     public static boolean terminate = false;
 
     enum MovementType {
@@ -46,7 +50,7 @@ public class Game {
         DESTINATION
     }
 
-    public Game(Controller controller) {
+    public Game(Controller controller, boolean continuousMovement) {
         maze = null;
         timer = new Timer();
         rand = new Random();
@@ -55,6 +59,8 @@ public class Game {
         this.shouldMove = false;
         pacmanMovs = null;
         lock = new ReentrantLock();
+        this.continuousMovement = continuousMovement;
+        this.futureMoveSet = false;
     }
 
     /**
@@ -106,9 +112,21 @@ public class Game {
 
     public void setDirection(Field.Direction dir) {
         lock.lock();
-        this.pacmanMove = dir;
         this.pacmanMoveType = MovementType.DIRECTION;
-        this.shouldMove = true;
+        if (!continuousMovement) {
+            if (!this.shouldMove) {
+                this.pacmanMove = dir;
+                this.shouldMove = true;
+            } else {
+                this.futureMoveSet = true;
+                this.pacmanFutureMove = dir;
+            }
+        }
+        else
+        {
+            this.pacmanMove = dir;
+            this.shouldMove = true;
+        }
         lock.unlock();
     }
 
@@ -140,7 +158,7 @@ public class Game {
         lock.unlock();
     }
 
-    public void setDestination(int row, int col){
+    public void setDestination(int row, int col) {
         lock.lock();
         this.destinationRow = row;
         this.destinationCol = col;
@@ -150,12 +168,11 @@ public class Game {
     /**
      * @return Array of two ints. Array[0] is destination row index, array[1] is destination column index.
      */
-    public int[] getDestination(){
+    public int[] getDestination() {
         try {
             lock.lock();
-            return new int[] {this.destinationRow, this.destinationCol};
-        }
-        finally {
+            return new int[]{this.destinationRow, this.destinationCol};
+        } finally {
             lock.unlock();
         }
     }
@@ -163,17 +180,25 @@ public class Game {
     /**
      * Determines the pacman next direction of movement. Calls the right getter depending on movement type
      * and returns appropriate direction.
+     *
      * @return Next direction of pacman movement.
      */
-    private Field.Direction getNextDirection(){
-        try{
+    private Field.Direction getNextDirection() {
+        try {
             lock.lock();
-            if (this.pacmanMoveType == MovementType.DIRECTION){
-                return this.getDirection();
+            if (this.pacmanMoveType == MovementType.DIRECTION) {
+                if (this.continuousMovement) {
+                    return this.getDirection();
+                } else {
+                    Field.Direction dir = pacmanMove;
+                    this.pacmanMove = this.pacmanFutureMove;
+                    this.shouldMove = this.futureMoveSet;
+                    this.futureMoveSet = false;
+                    return dir;
+                }
             }
             return this.getDirectionsDirection();
-        }
-        finally  // finally block executed always before return
+        } finally  // finally block executed always before return
         {
             this.pacmanMovsIndex++;
             lock.unlock();
@@ -191,7 +216,7 @@ public class Game {
     }
 
     private void runTick() {
-        if (terminate){
+        if (terminate) {
             timer.cancel();
             return;
         }
