@@ -49,4 +49,13 @@ public interface FieldObject {
      * @param maze maze to set the reference to.
      */
     void setMaze(Maze maze);
+
+    /**
+     * Teleports object to given location.
+     * Throws {@link UnsupportedOperationException} if object type is immovable.
+     *
+     * @param row Row index of destination.
+     * @param col Column index of destination.
+     */
+    void teleportTo(int row, int col);
 }

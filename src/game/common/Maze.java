@@ -1,6 +1,8 @@
 package game.common;
 
 import game.fieldObjects.*;
+import game.fields.EndField;
+import game.fields.StartField;
 
 import java.util.List;
 
@@ -53,4 +55,14 @@ public interface Maze {
      * @return pacman
      */
     PacmanObject getPacman();
+
+    /**
+     * @return Starting field.
+     */
+    StartField getStart();
+
+    /**
+     * @return Target field.
+     */
+    EndField getEnd();
 }

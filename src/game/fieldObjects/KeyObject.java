@@ -14,6 +14,11 @@ public class KeyObject implements FieldObject {
     private int col;
 
     /**
+     * Determines whether key was picked by pacman or not.
+     */
+    private boolean isPicked;
+
+    /**
      * Initializes key without maze reference.
      * {@link KeyObject#setMaze(Maze)} has to be called as well, before use.
      *
@@ -24,6 +29,7 @@ public class KeyObject implements FieldObject {
         this.row = row;
         this.col = col;
         ref = null;
+        this.isPicked = false;
     }
 
     /**
@@ -74,5 +80,27 @@ public class KeyObject implements FieldObject {
     @Override
     public void setMaze(Maze maze) {
         this.ref = maze;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void teleportTo(int row, int col) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @return Value of isPicked.
+     */
+    public boolean getIsPicked(){
+        return this.isPicked;
+    }
+
+    /**
+     * @param isPicked New value of isPicked.
+     */
+    public void setIsPicked(boolean isPicked){
+        this.isPicked = isPicked;
     }
 }

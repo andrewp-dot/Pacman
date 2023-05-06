@@ -130,5 +130,16 @@ public class GhostObject implements FieldObject {
     {
         ref = maze;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void teleportTo(int row, int col) {
+        ref.getField(this.row, this.col).remove(this);
+        ref.getField(row, col).put(this);
+        this.col = col;
+        this.row = row;
+    }
 }
 

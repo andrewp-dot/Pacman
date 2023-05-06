@@ -55,9 +55,23 @@ public class WallField implements Field {
         ref = maze;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public FieldObject getLast() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getRow() { return  this.row; }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getCol() { return this.col; }
 

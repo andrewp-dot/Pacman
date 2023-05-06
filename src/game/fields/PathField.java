@@ -140,9 +140,23 @@ public class PathField implements Field, Observable {
         ref = maze;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public FieldObject getLast() {
+        return this.fieldObjects.size() != 0 ?this.fieldObjects.get(this.fieldObjects.size()-1) : null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getRow() { return  this.row; }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getCol() { return this.col; }
 

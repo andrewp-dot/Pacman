@@ -77,14 +77,23 @@ public interface Field {
     void setMaze(Maze maze);
 
     /**
-     *  Gets row number of {@link Field}
-     * @return col number
+     * Returns last/newest {@link FieldObject FieldObjects} on this field.
+     * Throws an {@link UnsupportedOperationException} when {@link FieldObject} can not be put in this field.
+     * Use {@link Field#canMove()} to determine if object can be put in this field.
+     *
+     * @return {@link Iterable} of all {@link FieldObject FieldObjects} on this field.
+     */
+    FieldObject getLast();
+
+    /**
+     * @return Row index of this field.
      */
     int getRow();
 
     /**
-     *  Gets col number of {@link Field}
-     * @return
+     * @return Column index of this field.
      */
     int getCol();
+
+
 }
