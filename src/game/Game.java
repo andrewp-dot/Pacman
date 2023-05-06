@@ -11,41 +11,48 @@ import view.Controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Creates maze from given file and runs.
  */
 public class Game {
+    // properties below are synchronized, access strictly through getter and setter methods!!
+    private MovementType pacmanMoveType;
+    private Field.Direction pacmanMove;
+    private ArrayList<Field.Direction> pacmanMovs; // moves computed by A*
+    private int pacmanMovsIndex; // index of the next move
+    private boolean shouldMove;
+    private int destinationRow;
+    private int destinationCol;
+    private Lock lock;
+
+
     private MazeClass maze;
-
     private Controller controller;
-
-    Field.Direction PacmanMove;
-    boolean shouldMove;
-
     Random rand; // for ghost movement
-
-    //    Timeline ticker;
     Timer timer;
 
+
+    enum MovementType {
+        DIRECTION,
+        DESTINATION
+    }
+
     public Game(Controller controller) {
-//        if (Platform.isFxApplicationThread()){
-//            System.out.println("I'm in the fx thread");
-//        }
-//        else{
-//            System.out.println("I'm in the game thread");
-//        }
         maze = null;
         timer = new Timer();
         rand = new Random();
         this.controller = controller;
-
-//        ticker = new Timeline(new KeyFrame(Duration.millis(250), e -> runTick()));
-
-//        ticker.setCycleCount(Timeline.INDEFINITE);
+        this.pacmanMoveType = MovementType.DIRECTION;
+        this.shouldMove = false;
+        pacmanMovs = null;
+        lock = new ReentrantLock();
     }
 
     /**
@@ -96,8 +103,79 @@ public class Game {
     }
 
     public void setDirection(Field.Direction dir) {
-        this.PacmanMove = dir;
+        lock.lock();
+        this.pacmanMove = dir;
+        this.pacmanMoveType = MovementType.DIRECTION;
         this.shouldMove = true;
+        lock.unlock();
+    }
+
+    public Field.Direction getDirection() {
+        try {
+            lock.lock();
+            return this.pacmanMove;
+        } finally // finally block executed always before return
+        {
+            lock.unlock();
+        }
+    }
+
+    public Field.Direction getDirectionsDirection() {
+        try {
+            lock.lock();
+            return this.pacmanMovs.get(this.pacmanMovsIndex);
+        } finally // finally block executed always before return
+        {
+            lock.unlock();
+        }
+    }
+
+    public void setDirections(ArrayList<Field.Direction> directions) {
+        lock.lock();
+        this.pacmanMovs = directions;
+        this.pacmanMoveType = MovementType.DESTINATION;
+        this.shouldMove = true;
+        lock.unlock();
+    }
+
+    public void setDestination(int row, int col){
+        lock.lock();
+        this.destinationRow = row;
+        this.destinationCol = col;
+        lock.unlock();
+    }
+
+    /**
+     * @return Array of two ints. Array[0] is destination row index, array[1] is destination column index.
+     */
+    public int[] getDestination(){
+        try {
+            lock.lock();
+            return new int[] {this.destinationRow, this.destinationCol};
+        }
+        finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Determines the pacman next direction of movement. Calls the right getter depending on movement type
+     * and returns appropriate direction.
+     * @return Next direction of pacman movement.
+     */
+    private Field.Direction getNextDirection(){
+        try{
+            lock.lock();
+            if (this.pacmanMoveType == MovementType.DIRECTION){
+                return this.getDirection();
+            }
+            return this.getDirectionsDirection();
+        }
+        finally  // finally block executed always before return
+        {
+            this.pacmanMovsIndex++;
+            lock.unlock();
+        }
     }
 
     public void play() {
@@ -111,25 +189,18 @@ public class Game {
     }
 
     private void runTick() {
-//        if (Platform.isFxApplicationThread()){
-//            System.out.println("I'm in the fx thread");
-//        }
-//        else{
-//            System.out.println("I'm in the game thread");
-//        }
-//        System.out.println("Name of game thread is " + Thread.currentThread().getName());
-
         // move pacman
         if (shouldMove) {
             PacmanObject pac = maze.getPacman();
-            if (pac.canMove(PacmanMove)) {
-                pac.move(PacmanMove);
+            Field.Direction direction = getNextDirection();
+            if (pac.canMove(direction)) {
+                pac.move(direction);
             }
         }
 
         // check collision with ghosts
-        for(GhostObject g: maze.getGhosts()){
-            if(maze.getPacman().getField() == g.getField()){
+        for (GhostObject g : maze.getGhosts()) {
+            if (maze.getPacman().getField() == g.getField()) {
                 maze.getPacman().loseLive();
                 System.out.println("You lost live, now you have only " + maze.getPacman().getLives());
                 maze.getPacman().teleportTo(maze.getStart().getRow(), maze.getStart().getCol());
@@ -159,8 +230,8 @@ public class Game {
 
         // check collision
         // check collision with ghosts
-        for(GhostObject g: maze.getGhosts()){
-            if(maze.getPacman().getField() == g.getField()){
+        for (GhostObject g : maze.getGhosts()) {
+            if (maze.getPacman().getField() == g.getField()) {
                 maze.getPacman().loseLive();
                 System.out.println("You lost live, now you have only " + maze.getPacman().getLives());
                 maze.getPacman().teleportTo(maze.getStart().getRow(), maze.getStart().getCol());
@@ -169,31 +240,31 @@ public class Game {
         }
 
         // check key collision
-        for (KeyObject k:maze.getKeys()){
-            if(maze.getPacman().getField() == k.getField() && !k.getIsPicked()){
+        for (KeyObject k : maze.getKeys()) {
+            if (maze.getPacman().getField() == k.getField() && !k.getIsPicked()) {
                 k.getField().remove(k);
                 k.setIsPicked(true);
             }
         }
 
         // check losing condition
-        if (maze.getPacman().getLives() <= 0){
+        if (maze.getPacman().getLives() <= 0) {
             timer.cancel();
             controller.gameEnded(false);
             return;
         }
 
         // check winning condition
-        if (maze.getEnd() == maze.getPacman().getField()){
+        if (maze.getEnd() == maze.getPacman().getField()) {
             boolean allKeysPicked = true;
-            for (KeyObject k:maze.getKeys()){
-                if (!k.getIsPicked()){
+            for (KeyObject k : maze.getKeys()) {
+                if (!k.getIsPicked()) {
                     allKeysPicked = false;
                     break;
                 }
             }
 
-            if (allKeysPicked){
+            if (allKeysPicked) {
                 timer.cancel();
                 controller.gameEnded(true);
                 return;

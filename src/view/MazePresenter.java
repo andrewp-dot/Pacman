@@ -333,7 +333,6 @@
 //}
 
 
-
 package view;
 
 import game.Game;
@@ -352,6 +351,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -395,6 +395,7 @@ public class MazePresenter implements Observer {
             for (int j = 0; j < mazeColumnCount; j++) {
                 // create StackPane
                 StackPane stackPane = new StackPane();
+                addEventHandlersStackPane(stackPane, i, j);
                 // add background
                 ImageView background = new ImageView();
                 Field thisField = _game.getMaze().getField(i, j);
@@ -425,7 +426,7 @@ public class MazePresenter implements Observer {
             }
         }
 
-        addEventHandlers(scene);
+        addEventHandlersScene(scene);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -467,8 +468,7 @@ public class MazePresenter implements Observer {
             newImage = pacman;
         } else if (last instanceof KeyObject) {
             newImage = key;
-        }
-        else{
+        } else {
             newImage = null;
         }
 
@@ -480,7 +480,7 @@ public class MazePresenter implements Observer {
         });
     }
 
-    public void addEventHandlers(Scene scene) {
+    private void addEventHandlersScene(Scene scene) {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
@@ -504,6 +504,16 @@ public class MazePresenter implements Observer {
                     default:
                         System.out.println("Another key was pressed");
                 }
+            }
+        });
+    }
+
+    private void addEventHandlersStackPane(StackPane stackPane, int row, int col) {
+        stackPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                game.setDestination(row, col);
+                System.out.println("You have clicked on row" + row + "and col" + col);
             }
         });
     }
