@@ -1,31 +1,13 @@
-.root{
-    -fx-background-color: radial-gradient(center 50% 50%, radius 80%, #000000, rgb(70,50,50));
-}
-#pathField {
-    -fx-background-color:  rgb(200,200,200);
-}
-
-#startField {
-    -fx-background-color: rgb(120,110,80);
-}
-
-#endField {
-    -fx-background-color: rgb(20,150,0);
-}
-
-#wallField {
-    -fx-background-image: url("/imgs/wall.png ");
-    -fx-background-size: cover;
-    -fx-background-color: rgb(70,50,50);
-}
-
 #scoreBar {
-    -fx-background-color: transparent;
-    -fx-fill: grey;
+    -fx-min-height: 30px;
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
+    -fx-background-color: rgb(110,100,100);
 }
 
-
-#pacman {
-    -fx-fill: yellow;
+#scoreBarOption {
+    -fx-border-style: solid;
+    -fx-border-color: rgb(50,50,50);
 }
 
+ää

@@ -1,12 +1,10 @@
 package view.menu;
 
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -47,6 +45,11 @@ public class Replays extends Menu {
      * @return
      */
     public Scene getScene() { return this.scene; }
+
+    /**
+     * Creates scroll pane for replays
+     * @return scrollPane
+     */
     private ScrollPane createReplaysScrollPane() {
         VBox layout = new VBox();
         layout.setMaxSize(this.minHeight, this.minWidth);
