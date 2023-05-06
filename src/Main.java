@@ -1,3 +1,4 @@
+import game.Game;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -34,6 +35,7 @@ public class Main extends Application{
     {
         // add handling for X button -> comunication between scenes / windows
         System.out.println("Bye bye...");
+        Game.terminate = true;
         window.close();
     }
 

@@ -39,6 +39,7 @@ public class Game {
     Random rand; // for ghost movement
     Timer timer;
 
+    public static boolean terminate = false;
 
     enum MovementType {
         DIRECTION,
@@ -190,6 +191,11 @@ public class Game {
     }
 
     private void runTick() {
+        if (terminate){
+            timer.cancel();
+            return;
+        }
+
         // move pacman
         if (shouldMove) {
             PacmanObject pac = maze.getPacman();
