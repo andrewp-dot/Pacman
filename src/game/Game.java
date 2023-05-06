@@ -1,9 +1,11 @@
 package game;
 
+import game.astar.Astar;
 import game.common.Field;
 import game.fieldObjects.GhostObject;
 import game.fieldObjects.KeyObject;
 import game.fieldObjects.PacmanObject;
+import javafx.concurrent.Task;
 import utils.Observable;
 import utils.Observer;
 import view.Controller;
@@ -155,10 +157,15 @@ public class Game {
         }
     }
 
-    public Field.Direction getDirectionsDirection() {
+    private Field.Direction getDirectionsDirection() {
         try {
             lock.lock();
-            return this.pacmanMovs.get(this.pacmanMovsIndex);
+            Field.Direction dir = this.pacmanMovs.get(this.pacmanMovsIndex);
+            this.pacmanMovsIndex++;
+            if (this.pacmanMovsIndex == this.pacmanMovs.size()){
+                this.shouldMove = false;
+            }
+            return dir;
         } finally // finally block executed always before return
         {
             lock.unlock();
@@ -170,6 +177,8 @@ public class Game {
         this.pacmanMovs = directions;
         this.pacmanMoveType = MovementType.DESTINATION;
         this.shouldMove = true;
+        this.pacmanMovsIndex = 0;
+        this.futureMoveSet = false;
         lock.unlock();
     }
 
@@ -177,6 +186,24 @@ public class Game {
         lock.lock();
         this.destinationRow = row;
         this.destinationCol = col;
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Astar a = new Astar(getMaze().getMap(),getMaze().getPacman().getField(),getMaze().getField(row, col));
+                ArrayList<Field.Direction> display = a.aStar();
+                if (display != null){
+                    setDirections(display);
+                }
+                return null;
+            }
+        };
+        new Thread(task).start();
+        lock.unlock();
+    }
+
+    private void setShouldMove(boolean should){
+        lock.lock();
+        this.shouldMove = should;
         lock.unlock();
     }
 
@@ -215,7 +242,6 @@ public class Game {
             return this.getDirectionsDirection();
         } finally  // finally block executed always before return
         {
-            this.pacmanMovsIndex++;
             lock.unlock();
         }
     }
@@ -255,6 +281,7 @@ public class Game {
                 maze.getPacman().loseLive();
                 System.out.println("You lost live, now you have only " + maze.getPacman().getLives());
                 maze.getPacman().teleportTo(maze.getStart().getRow(), maze.getStart().getCol());
+                setShouldMove(false);
                 break;
             }
         }
@@ -286,6 +313,7 @@ public class Game {
                 maze.getPacman().loseLive();
                 System.out.println("You lost live, now you have only " + maze.getPacman().getLives());
                 maze.getPacman().teleportTo(maze.getStart().getRow(), maze.getStart().getCol());
+                setShouldMove(false);
                 break;
             }
         }

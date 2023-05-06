@@ -192,21 +192,21 @@ public class MazePresenter implements Observer {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 game.setDestination(row, col);
-                System.out.println("You have clicked on row" + row + "and col" + col);
+//                System.out.println("You have clicked on row" + row + "and col" + col);
 
                 // demostracia a star -> vypis v konzole
-                Astar a = new Astar(game.getMaze().getMap(),game.getMaze().getMap()[9][1],game.getMaze().getMap()[row][col]);
-                ArrayList<Field.Direction> display = a.aStar();
-                for (Field.Direction dir: display)
-                {
-                    switch (dir)
-                    {
-                        case D -> System.out.println("Down");
-                        case U -> System.out.println("Up");
-                        case L -> System.out.println("Left");
-                        case R -> System.out.println("Right");
-                    }
-                }
+//                Astar a = new Astar(game.getMaze().getMap(),game.getMaze().getMap()[9][1],game.getMaze().getMap()[row][col]);
+//                ArrayList<Field.Direction> display = a.aStar();
+//                for (Field.Direction dir: display)
+//                {
+//                    switch (dir)
+//                    {
+//                        case D -> System.out.println("Down");
+//                        case U -> System.out.println("Up");
+//                        case L -> System.out.println("Left");
+//                        case R -> System.out.println("Right");
+//                    }
+//                }
             }
         });
     }

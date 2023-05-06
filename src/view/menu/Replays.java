@@ -80,6 +80,9 @@ public class Replays extends Menu {
     {
         File replays = new File("src","replays");
         String[] replayNames = replays.list();
+        if (replayNames == null){
+            return;
+        }
         for (String name: replayNames)
         {
             Button btn = new Button(name);
