@@ -31,6 +31,7 @@ public class Game {
     private int destinationRow;
     private int destinationCol;
     private Lock lock;
+    // end of synchronized properties
 
 
     private MazeClass maze;

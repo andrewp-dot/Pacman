@@ -204,7 +204,7 @@ public class LevelMenu extends Menu {
             protected Void call() throws Exception {
                 String map = maps.get(Integer.parseInt(btn.getId()));
                 File file = new File("src/maps/" + map);
-                Controller controller = new Controller(window);
+                Controller controller = new Controller(window, scene);
                 controller.loadAndPlay(file);
 
                 return null;
