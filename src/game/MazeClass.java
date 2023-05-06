@@ -100,4 +100,9 @@ public class MazeClass implements Maze {
     public int getRowCount() {
         return rowCount;
     }
+
+    /**
+     * Gets game map
+     */
+    public Field[][] getMap() { return this.map; }
 }

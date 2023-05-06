@@ -23,13 +23,15 @@ public class Astar {
         this.maze = maze;
         this.start = start;
         this.goal = goal;
+        this.open = new ArrayList<>();
+        this.closed = new ArrayList<>();
     }
     /**
      * A-star pathfinding algorithm
      * @return list of moves to the goal
      */
     //public ArrayList<Field.Direction> aStar()
-    public void aStar()
+    public  ArrayList<Field> aStar()
     {
         open.add(new FieldNode(start,null, start,goal));
 
@@ -41,11 +43,12 @@ public class Astar {
             open.remove(currentNode);
             closed.add(currentNode);
 
-            if(currentNode.getCurrentField().equals(goal))  return;
+            if(currentNode.getCurrentField().equals(goal))  return getPathForDisplay(currentNode);
 
             //for child in children
             addReachablesToOpen(currentNode);
         }
+        return null;
     }
 
     /**

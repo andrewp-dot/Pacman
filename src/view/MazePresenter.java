@@ -336,6 +336,7 @@
 package view;
 
 import game.Game;
+import game.astar.Astar;
 import game.common.Field;
 import game.common.FieldObject;
 import game.fieldObjects.GhostObject;
@@ -356,6 +357,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import utils.Observer;
+
+import java.util.ArrayList;
 
 /**
  * Renders {@link game.Game} in javafx gui.
@@ -514,6 +517,14 @@ public class MazePresenter implements Observer {
             public void handle(MouseEvent mouseEvent) {
                 game.setDestination(row, col);
                 System.out.println("You have clicked on row" + row + "and col" + col);
+
+                // demostracia a star
+                Astar a = new Astar(game.getMaze().getMap(),game.getMaze().getMap()[9][1],game.getMaze().getMap()[row][col]);
+                ArrayList<Field> display = a.aStar();
+                for (Field field: display)
+                {
+                    fieldObjects[field.getRow()][field.getCol()].setImage(new Image("imgs/target.png"));
+                }
             }
         });
     }
