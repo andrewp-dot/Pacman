@@ -1,5 +1,9 @@
 package view.menu;
 
+import changelog.Changelog;
+import game.Game;
+import game.MazeClass;
+import javafx.concurrent.Task;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import view.MazePresenterLog;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,18 +22,19 @@ public class Replays extends Menu {
     private Scene prevMenu;
     private ArrayList<Button> replays;
     private Scene scene;
+    private MazeClass maze;
 
-    public Replays(int minWidth,int minHeight,Stage window,Scene prevMenu)
-    {
-        super(minWidth,minHeight,window);
+    public Replays(int minWidth, int minHeight, Stage window, Scene prevMenu) {
+        super(minWidth, minHeight, window);
         this.prevMenu = prevMenu;
         this.replays = new ArrayList<>();
         this.scene = createMenuScene();
     }
+
     @Override
     public Scene createMenuScene() {
         BorderPane root = new BorderPane();
-        NavBar navbar = new NavBar(this.window,prevMenu);
+        NavBar navbar = new NavBar(this.window, prevMenu);
         root.setTop(navbar.getNavbar());
 
         ScrollPane scrollPane = createReplaysScrollPane();
@@ -42,12 +48,16 @@ public class Replays extends Menu {
 
     /**
      * Gets scene of replay menu
+     *
      * @return
      */
-    public Scene getScene() { return this.scene; }
+    public Scene getScene() {
+        return this.scene;
+    }
 
     /**
      * Creates scroll pane for replays
+     *
      * @return scrollPane
      */
     private ScrollPane createReplaysScrollPane() {
@@ -76,16 +86,38 @@ public class Replays extends Menu {
     /**
      * Loads all replays from folder
      */
-    private void loadReplays()
-    {
-        File replays = new File("src","replays");
+    private void loadReplays() {
+        File replays = new File("src", "replays");
         String[] replayNames = replays.list();
-        if (replayNames == null){
+        if (replayNames == null) {
             return;
         }
-        for (String name: replayNames)
-        {
+        for (String name : replayNames) {
             Button btn = new Button(name);
+
+            btn.setOnMouseClicked(mouseEvent -> {
+                Task<Void> task = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        File file = new File("src/replays/" + name);
+                        Changelog changelog = new Changelog();
+                        try {
+                            changelog.parse(file);
+                        } catch (Exception e) {
+                            System.out.println("Error while parsing changelog:");
+                            e.printStackTrace();
+                            // TODO alert window
+                            return null;
+                        }
+                        maze = changelog.maze;
+                        MazePresenterLog mazePresenterLog = new MazePresenterLog(maze, window);
+                        Game.addObserver(mazePresenterLog, maze);
+                        return null;
+                    }
+                };
+                new Thread(task).start();
+            });
+
             btn.setId("replayButton");
             this.replays.add(btn);
         }
@@ -93,19 +125,18 @@ public class Replays extends Menu {
 
     /**
      * Adds replays to layout
-     * @param layout space to add replay buttons
+     *
+     * @param layout space to add replay buttonsn
      */
-    private void addReplays(VBox layout)
-    {
-        if(replays.isEmpty())
-        {
+    private void addReplays(VBox layout) {
+        if (replays.isEmpty()) {
             Text nothing = new Text("No replays has been added yet.");
             nothing.setId("anyReplaysInfo");
             nothing.setFill(Color.WHITE);
             layout.getChildren().add(nothing);
             return;
         }
-        for (Button replay: replays) layout.getChildren().add(replay);
+        for (Button replay : replays) layout.getChildren().add(replay);
     }
 
 }

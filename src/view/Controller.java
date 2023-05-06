@@ -57,7 +57,6 @@ public class Controller {
                 {
                     stage.setScene(levelMenuScene);
                 }
-                // TODO load game depending on the decision restart == load the same game, next == back to levelMenu
                 System.out.println(decision.name());
             }
         });

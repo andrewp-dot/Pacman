@@ -7,12 +7,12 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Changelog {
-    ArrayList<Coordinates> pacmanCoords;
-    ArrayList<ArrayList<Coordinates>> ghostsCoors;
-    ArrayList<ArrayList<Boolean>> keysArePicked;
-    ArrayList<Integer> pacmanLives;
+    public ArrayList<Coordinates> pacmanCoords;
+    public ArrayList<ArrayList<Coordinates>> ghostsCoors;
+    public ArrayList<ArrayList<Boolean>> keysArePicked;
+    public ArrayList<Integer> pacmanLives;
 
-    MazeClass maze;
+    public MazeClass maze;
 
     public Changelog() {
         this.pacmanCoords = new ArrayList<>();
@@ -22,7 +22,7 @@ public class Changelog {
         this.maze = null;
     }
 
-    void Parse(File file) throws Exception {
+    public void parse(File file) throws Exception {
         MazeConfigure conf = new MazeConfigure();
         FileReader fr = new FileReader(file);
         BufferedReader buffr = new BufferedReader(fr);
@@ -66,8 +66,9 @@ public class Changelog {
         // key_isPicked "Picked|Active"
 
         int valueCount = (1 + maze.getGhosts().size()) * 2 + maze.getKeys().size() + 1; // number of items for each line
-        int valueIndex = 0;
+        int valueIndex;
         while (buffr.ready()) {
+            valueIndex = 0;
             String[] values = buffr.readLine().split(" ");
             if (values.length != valueCount) {
                 throw new Exception("Invalid Changelog format");

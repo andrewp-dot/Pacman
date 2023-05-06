@@ -1,6 +1,7 @@
 package view;
 
 import game.Game;
+import game.MazeClass;
 import game.common.Field;
 import game.common.FieldObject;
 import game.fieldObjects.GhostObject;
@@ -27,7 +28,7 @@ import utils.Observer;
 /**
  * Renders {@link game.Game} in javafx gui.
  */
-public class MazePresenter implements Observer {
+public class MazePresenterLog implements Observer {
     private final int fieldHeight = 50;
     private final int fieldWidth = fieldHeight;
     private int mazeRowCount;
@@ -37,21 +38,22 @@ public class MazePresenter implements Observer {
     private Image ghost;
     private Image key;
 
-    private Game game;
+    private MazeClass mazeClass;
 
-    public MazePresenter(Game _game, Stage stage) {
-        this.game = _game;
-        this.mazeRowCount = _game.getMaze().getRowCount();
-        this.mazeColumnCount = _game.getMaze().getColCount();
+    public MazePresenterLog(MazeClass mazeClass, Stage stage) {
+        this.mazeClass = mazeClass;
+        this.mazeRowCount = mazeClass.getRowCount();
+        this.mazeColumnCount = mazeClass.getColCount();
 
         this.fieldObjects = new ImageView[mazeRowCount][mazeColumnCount];
         pacman = new Image("imgs/pacman.png");
         key = new Image("imgs/key.png");
         ghost = new Image("imgs/ghost.png");
 
-        // Create root with score bar
+        // Create root with score bar, actions
         VBox root = new VBox();
         HBox scoreBar = createScoreBar();
+        HBox actions;
 
         // Create gridPane with maze map inside.
         GridPane maze = new GridPane();
@@ -70,10 +72,10 @@ public class MazePresenter implements Observer {
             for (int j = 0; j < mazeColumnCount; j++) {
                 // create StackPane
                 StackPane stackPane = new StackPane();
-                addEventHandlersStackPane(stackPane, i, j);
+//                addEventHandlersStackPane(stackPane, i, j);
                 // add background
                 ImageView background = new ImageView();
-                Field thisField = _game.getMaze().getField(i, j);
+                Field thisField = mazeClass.getField(i, j);
                 if (thisField instanceof EndField) {
                     background.setImage(end);
                 } else if (thisField instanceof WallField) {
@@ -101,7 +103,7 @@ public class MazePresenter implements Observer {
             }
         }
 
-        addEventHandlersScene(scene);
+//        addEventHandlersScene(scene);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -155,42 +157,42 @@ public class MazePresenter implements Observer {
         });
     }
 
-    private void addEventHandlersScene(Scene scene) {
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                switch (keyEvent.getCode()) {
-                    case UP:
-                    case W:
-                        game.setDirection(Field.Direction.U);
-                        break;
-                    case DOWN:
-                    case S:
-                        game.setDirection(Field.Direction.D);
-                        break;
-                    case LEFT:
-                    case A:
-                        game.setDirection(Field.Direction.L);
-                        break;
-                    case RIGHT:
-                    case D:
-                        game.setDirection(Field.Direction.R);
-                        break;
-                    default:
-                        System.out.println("Another key was pressed");
-                }
-            }
-        });
-    }
-
-    private void addEventHandlersStackPane(StackPane stackPane, int row, int col) {
-        stackPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                game.setDestination(row, col);
-            }
-        });
-    }
+//    private void addEventHandlersScene(Scene scene) {
+//        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+//            @Override
+//            public void handle(KeyEvent keyEvent) {
+//                switch (keyEvent.getCode()) {
+//                    case UP:
+//                    case W:
+//                        game.setDirection(Field.Direction.U);
+//                        break;
+//                    case DOWN:
+//                    case S:
+//                        game.setDirection(Field.Direction.D);
+//                        break;
+//                    case LEFT:
+//                    case A:
+//                        game.setDirection(Field.Direction.L);
+//                        break;
+//                    case RIGHT:
+//                    case D:
+//                        game.setDirection(Field.Direction.R);
+//                        break;
+//                    default:
+//                        System.out.println("Another key was pressed");
+//                }
+//            }
+//        });
+//    }
+//
+//    private void addEventHandlersStackPane(StackPane stackPane, int row, int col) {
+//        stackPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent mouseEvent) {
+//                game.setDestination(row, col);
+//            }
+//        });
+//    }
 
     private HBox createScoreBar()
     {
@@ -220,4 +222,8 @@ public class MazePresenter implements Observer {
         return scoreBarOption;
     }
 
+    private HBox createActions(){
+        HBox actions = new HBox();
+        return null;
+    }
 }

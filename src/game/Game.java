@@ -119,6 +119,10 @@ public class Game {
     }
 
     public void addObserver(Observer observer) {
+        addObserver(observer, this.maze);
+    }
+
+    public static void addObserver(Observer observer, MazeClass maze){
         for (int i = 0; i < maze.getRowCount(); i++) {
             for (int j = 0; j < maze.getColCount(); j++) {
                 if (maze.getField(i, j) instanceof Observable) {
