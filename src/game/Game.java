@@ -74,7 +74,8 @@ public class Game {
      * @param file file to load maze from.
      */
     public void loadMaze(File file) throws Exception {
-        changelogPath = file.getAbsolutePath().substring(0,file.getAbsolutePath().length()-3) + "mazelog";
+        changelogPath = file.getName().substring(0, file.getName().length()-4);
+        changelogPath = "src/replays/" + changelogPath;
         MazeConfigure conf = new MazeConfigure();
         FileReader fr = new FileReader(file);
         BufferedReader buffr = new BufferedReader(fr);
