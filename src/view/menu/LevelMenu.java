@@ -56,39 +56,8 @@ public class LevelMenu extends Menu {
         return levelMenu;
     }
 
-    /*
-    /**
-     * Sets up backButton that points to scene of displayScene parameter
-     *
-     * @param displayScene scene to be displayed after clicking on button
-     * @return back button
-
-    private Button backButton(Scene displayScene) {
-        Button goBack = new Button();
-        goBack.setAlignment(Pos.TOP_LEFT);
-        goBack.setId("backButton");
-        goBack.setOnMouseClicked(mouseEvent -> this.window.setScene(displayScene));
-        return goBack;
-    }
-
-    /**
-     * Creates navigation bar
-     *
-     * @return navbar
-
-    private StackPane createNavBar() {
-        Button goBackButton = backButton(this.mainMenu);
-        StackPane navBar = new StackPane(goBackButton);
-        navBar.setPadding(new Insets(10, 10, 0, 10));
-        navBar.setAlignment(Pos.TOP_LEFT);
-        navBar.setId("navBar");
-        return navBar;
-    }
-    */
-
     /**
      * Creates scrollable menu for level choose
-     *
      * @return scroll pane
      */
     private ScrollPane createLevelScrollPane() {

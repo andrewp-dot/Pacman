@@ -1,0 +1,27 @@
+#replayButton {
+    -fx-background-color: transparent;
+    -fx-text-fill: White;
+    -fx-min-width: 200px;
+    -fx-max-width: 400px;
+}
+
+#replayButton:hover {
+    -fx-background-color: rgb(200,200,0);
+    -fx-text-fill: Black;
+}
+
+.root {
+    -fx-font-size: 32px;
+    -fx-background-color: rgb(50,100,150);
+}
+
+.scroll-pane {
+    -fx-background-color: rgb(50,100,150);
+}
+
+#root {
+    -fx-background-color: rgb(50,100,150);
+}
+
+
+

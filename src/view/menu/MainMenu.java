@@ -10,13 +10,6 @@ import javafx.stage.Stage;
  * Creates main menu scene
  */
 public class MainMenu  extends Menu {
-    /*
-    private final int minWidth;
-    private final int minHeight;
-    private final ArrayList<Button> menuOptions = new ArrayList<>();
-    private Text title;
-    */
-
     public MainMenu(int minWidth, int minHeight, Stage stage) {
         super(minWidth,minHeight,stage);
     }

@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import view.menu.MainMenu;
 import view.menu.Menu;
 import view.menu.LevelMenu;
+import view.menu.Replays;
 import view.settings.Settings;
 
 public class Main extends Application{
@@ -46,7 +47,7 @@ public class Main extends Application{
     {
         Menu mainMenu = new MainMenu(windowWidth,windowHeight,window);
         mainMenu.setTitle("Main Pacmenu");
-        mainMenu.addOptions("Play","Settings","Exit");
+        mainMenu.addOptions("Play","Settings","Replays","Exit");
 
         // change this to level setups
         Scene mainMenuScene = mainMenu.createMenuScene();
@@ -55,6 +56,9 @@ public class Main extends Application{
 
         Settings settings = new Settings(windowWidth,windowHeight,window,mainMenuScene);
         mainMenu.getButtonByTitle("Settings").setOnMouseClicked(mouseEvent -> window.setScene(settings.getScene()));
+
+        Replays replays = new Replays(windowWidth,windowHeight,window,mainMenuScene);
+        mainMenu.getButtonByTitle("Replays").setOnMouseClicked(mouseEvent -> window.setScene(replays.getScene()));
         mainMenu.getButtonByTitle("Exit").setOnMouseClicked(mouseEvent -> close_handler());
         return mainMenuScene;
     }
