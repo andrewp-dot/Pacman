@@ -18,7 +18,7 @@ public class Settings {
     private final int minWidth;
     private final int minHeight;
 
-    private boolean useMouseMove;
+    private boolean useAutoMove;
 
     /**
      * Constructor
@@ -40,7 +40,7 @@ public class Settings {
      * Gets value of mouse move
      * @return true if its enabled
      */
-    public boolean getUseMouseMove() { return this.useMouseMove; }
+    public boolean isAutoMoveEnabled() { return this.useAutoMove; }
 
     /**
      * Gets settings scene
@@ -58,7 +58,7 @@ public class Settings {
         root.setPadding(new Insets(0,20,10,20));
         root.setId("root");
         root.getChildren().add(new NavBar(this.window,this.mainMenu).getNavbar());
-        root.getChildren().addAll(createOption("Move by mouse"));
+        root.getChildren().addAll(createOption("Auto move"));
 
         Scene settings = new Scene(root,minWidth,minHeight);
         settings.getStylesheets().add("styles/settings.css");
@@ -82,8 +82,8 @@ public class Settings {
         description.setLabelFor(checkBox);
         checkBox.setPrefWidth(25);
         // initial
-        this.useMouseMove = checkBox.isSelected();
-        checkBox.setOnMouseClicked( mouseEvent -> this.useMouseMove = checkBox.isSelected());
+        this.useAutoMove = checkBox.isSelected();
+        checkBox.setOnMouseClicked( mouseEvent -> this.useAutoMove = checkBox.isSelected());
 
         checkBox.setAlignment(Pos.CENTER_RIGHT);
 
