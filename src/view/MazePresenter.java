@@ -518,12 +518,18 @@ public class MazePresenter implements Observer {
                 game.setDestination(row, col);
                 System.out.println("You have clicked on row" + row + "and col" + col);
 
-                // demostracia a star
+                // demostracia a star -> vypis v konzole
                 Astar a = new Astar(game.getMaze().getMap(),game.getMaze().getMap()[9][1],game.getMaze().getMap()[row][col]);
-                ArrayList<Field> display = a.aStar();
-                for (Field field: display)
+                ArrayList<Field.Direction> display = a.aStar();
+                for (Field.Direction dir: display)
                 {
-                    fieldObjects[field.getRow()][field.getCol()].setImage(new Image("imgs/target.png"));
+                    switch (dir)
+                    {
+                        case D -> System.out.println("Down");
+                        case U -> System.out.println("Up");
+                        case L -> System.out.println("Left");
+                        case R -> System.out.println("Right");
+                    }
                 }
             }
         });

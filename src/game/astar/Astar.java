@@ -5,6 +5,8 @@ import game.fields.WallField;
 
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import static java.lang.Math.*;
 
@@ -30,8 +32,7 @@ public class Astar {
      * A-star pathfinding algorithm
      * @return list of moves to the goal
      */
-    //public ArrayList<Field.Direction> aStar()
-    public  ArrayList<Field> aStar()
+    public  ArrayList<Field.Direction> aStar()
     {
         open.add(new FieldNode(start,null, start,goal));
 
@@ -175,7 +176,7 @@ public class Astar {
      * @param current
      * @return
      */
-    public ArrayList<Field> getPathForDisplay(FieldNode current)
+    public ArrayList<Field.Direction> getPathForDisplay(FieldNode current)
     {
         ArrayList<Field> path = new ArrayList<Field>(0);
         while (current != null)
@@ -183,33 +184,43 @@ public class Astar {
             path.add(current.getCurrentField());
             current = current.getPreviousNode();
         }
-        return path;
-    }
-    /*
-    /**
-     * Gets path
-     * @return array of moves
-
-    public ArrayList<Field.Direction> getPath(FieldNode current)
-    {
-        ArrayList<Field.Direction> path = new ArrayList<Field.Direction>(0);
-        while (current != null)
+        // reverse
+        Collections.reverse(path);
+        ArrayList<Field.Direction> moves = new ArrayList<>();
+        for(int i = 0; i + 1 < path.size(); i++)
         {
-            System.out.println("[" + current.field.getRow() + "," + current.field.getCol() + "]");
-            current = current.prevNode;
+            Field.Direction dir;
+            try{
+                dir = getDirection(path.get(i),path.get(i + 1));
+            }
+            catch (Exception e)
+            {
+                System.err.println(e.getMessage());
+                return null;
+            }
+            moves.add(dir);
         }
-        return null;
+        return moves;
     }
 
     /**
      * Converts path to move
-     * @param prev
-     * @param current
-     * @return
-
-    private Field.Direction getDirection(Field prev, Field current)
-    {
-
-    }
+     * @param current current position
+     * @param next next position
+     * @return direction
     */
+    private Field.Direction getDirection(Field current, Field next) throws Exception
+    {
+        int horizontalDir = current.getCol() - next.getCol();
+        int verticalDir = current.getRow() - next.getRow();
+        if(horizontalDir != 0 && verticalDir != 0)
+        {
+            throw new Exception("[A-star]: Unsupported direction movement.");
+        }
+
+        if (horizontalDir != 0) return horizontalDir < 0 ? Field.Direction.R : Field.Direction.L;
+        else if(verticalDir != 0) return verticalDir > 0 ? Field.Direction.U : Field.Direction.D;
+        return null;
+    }
+
 }
