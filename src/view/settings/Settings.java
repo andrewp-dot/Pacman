@@ -2,14 +2,12 @@ package view.settings;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import view.menu.NavBar;
 
@@ -20,6 +18,15 @@ public class Settings {
     private final int minWidth;
     private final int minHeight;
 
+    private boolean useMouseMove;
+
+    /**
+     * Constructor
+     * @param minWidth scene width
+     * @param minHeight scene height
+     * @param stage stage, where it is displayed
+     * @param mainMenu menu to go back to
+     */
     public Settings(int minWidth, int minHeight, Stage stage, Scene mainMenu)
     {
         this.minWidth = minWidth;
@@ -29,7 +36,22 @@ public class Settings {
         this.settingsScene = createSettingsScene();
     }
 
+    /**
+     * Gets value of mouse move
+     * @return true if its enabled
+     */
+    public boolean getUseMouseMove() { return this.useMouseMove; }
+
+    /**
+     * Gets settings scene
+     * @return created settings scene
+     */
     public Scene getScene() { return this.settingsScene; }
+
+    /**
+     * Creates settings scene
+     * @return settings scene
+     */
     private Scene createSettingsScene()
     {
         VBox root = new VBox();
@@ -43,6 +65,11 @@ public class Settings {
         return settings;
     }
 
+    /**
+     * Creates option of settings
+     * @param labelText description option
+     * @return settings option view
+     */
     private HBox createOption(String labelText)
     {
         HBox opt = new HBox();
@@ -54,6 +81,9 @@ public class Settings {
         CheckBox checkBox = new CheckBox();
         description.setLabelFor(checkBox);
         checkBox.setPrefWidth(25);
+        // initial
+        this.useMouseMove = checkBox.isSelected();
+        checkBox.setOnMouseClicked( mouseEvent -> this.useMouseMove = checkBox.isSelected());
 
         checkBox.setAlignment(Pos.CENTER_RIGHT);
 
