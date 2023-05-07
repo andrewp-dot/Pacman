@@ -33,8 +33,6 @@ public class Controller {
         } catch (Exception e) {
             System.out.println("Error occurred while loading level:");
             System.out.println(e.getMessage());
-            // TODO make into a pop-up window
-            // TODO decide what to do next, return back to levelMenu
         }
     }
 

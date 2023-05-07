@@ -88,7 +88,7 @@ public class LevelMenu extends Menu {
     private void loadMaps() {
 
         File src = new File("src");
-        File mapFolder = new File(src, "maps");
+        File mapFolder = new File(src, "data");
         File[] listOfFiles = mapFolder.listFiles();
 
         if (listOfFiles == null) return;
@@ -172,7 +172,7 @@ public class LevelMenu extends Menu {
             @Override
             protected Void call() throws Exception {
                 String map = maps.get(Integer.parseInt(btn.getId()));
-                File file = new File("src/maps/" + map);
+                File file = new File("src/data/" + map);
                 Controller controller = new Controller(window, scene);
                 controller.loadAndPlay(file);
 
