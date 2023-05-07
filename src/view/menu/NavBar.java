@@ -8,9 +8,9 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
- * @author Adrián Ponechal
- *
  * Creates navigation bar. It contains 'back to previous menu' button.
+ *
+ * @author Adrián Ponechal
  */
 public class NavBar {
     private Stage window;

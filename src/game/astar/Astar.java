@@ -11,8 +11,8 @@ import java.util.Collections;
 import static java.lang.Math.*;
 
 /**
- * @author Adrián Ponechal
  * A-star algorithm for pathfinding
+ * @author Adrián Ponechal
  */
 public class Astar {
     private ArrayList<FieldNode> open;

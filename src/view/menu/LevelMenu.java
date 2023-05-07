@@ -22,9 +22,9 @@ import view.Controller;
 import view.MazePresenter;
 
 /**
- * @author Adrián Ponechal
- *
  * Creates and displays level menu
+ *
+ * @author Adrián Ponechal
  */
 public class LevelMenu extends Menu {
     private final Scene scene;

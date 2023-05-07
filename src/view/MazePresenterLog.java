@@ -36,8 +36,9 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * @author Ondřej Vrána
  * Renders {@link game.Game} in javafx gui.
+ *
+ * @author Ondřej Vrána
  */
 public class MazePresenterLog implements Observer {
     private final int fieldHeight = 50;

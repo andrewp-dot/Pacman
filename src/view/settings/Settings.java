@@ -12,9 +12,9 @@ import javafx.stage.Stage;
 import view.menu.NavBar;
 
 /**
- * @author Adrián Ponechal
- *
  * Creates and displays settings.
+ *
+ * @author Adrián Ponechal
  */
 public class Settings {
     private final Scene settingsScene;
