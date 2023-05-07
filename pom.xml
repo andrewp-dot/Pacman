@@ -15,71 +15,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <src.dir>src</src.dir>
         <mainClass>Main</mainClass>
+        <javafx.version>17</javafx.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>17.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/JavaFX.framework/javafx-sdk-17.0.7/lib/javafx.fxml.jar</systemPath>
-        </dependency>
-
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>javafx-graphics</artifactId>
-            <version>17.0.0</version>
-            <systemPath>${project.basedir}/lib/JavaFX.framework/javafx-sdk-17.0.7/lib/javafx.graphics.jar</systemPath>
-            <scope>system</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.oracle</groupId>
+            <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>17.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/JavaFX.framework/javafx-sdk-17.0.7/lib/javafx.controls.jar</systemPath>
-        </dependency>
-
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>javafx-base</artifactId>
-            <version>17.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/JavaFX.framework/javafx-sdk-17.0.7/lib/javafx.base.jar</systemPath>
-        </dependency>
-
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>javafx-swt.jar</artifactId>
-            <version>17.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/JavaFX.framework/javafx-sdk-17.0.7/lib/javafx-swt.jar</systemPath>
-        </dependency>
-
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>javafx.media.jar</artifactId>
-            <version>17.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/JavaFX.framework/javafx-sdk-17.0.7/lib/javafx.media.jar</systemPath>
-        </dependency>
-
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>javafx-swing</artifactId>
-            <version>17.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/JavaFX.framework/javafx-sdk-17.0.7/lib/javafx.swing.jar</systemPath>
-        </dependency>
-
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>javafx-web</artifactId>
-            <version>17.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/JavaFX.framework/javafx-sdk-17.0.7/lib/javafx.web.jar</systemPath>
+            <version>${javafx.version}</version>
         </dependency>
     </dependencies>
 
@@ -105,6 +48,16 @@
 
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <configuration>
+                    <mainClass>Main</mainClass>
+                </configuration>
+            </plugin>
+
+
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
@@ -112,7 +65,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>${mainClass}</mainClass>
+                            <mainClass>Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
