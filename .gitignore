@@ -33,3 +33,4 @@ replay_pid*
 *.pdf
 src/out
 JavaFX.framework
+doc/javadoc-master
