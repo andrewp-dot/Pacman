@@ -34,6 +34,8 @@ public class Astar {
      */
     public  ArrayList<Field.Direction> aStar()
     {
+        if(this.start.equals(this.goal)) return null;
+        
         open.add(new FieldNode(start,null, start,goal));
 
         while (!open.isEmpty())

@@ -30,6 +30,13 @@
         <sourceDirectory>${src.dir}</sourceDirectory>
         <resources>
             <resource>
+                <directory>src/replays</directory>
+                <targetPath>${project.build.directory}/classes/replays</targetPath>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+            <resource>
                 <directory>src/styles</directory>
                 <targetPath>${project.build.directory}/classes/styles</targetPath>
                 <includes>
