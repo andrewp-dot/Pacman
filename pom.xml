@@ -59,7 +59,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.4.0</version>
                 <configuration>
-                    <mainClass>Main</mainClass>
+                    <mainClass>src.Main</mainClass>
                 </configuration>
             </plugin>
 

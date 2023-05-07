@@ -1,3 +1,5 @@
+package src;
+
 import game.Game;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -59,8 +61,12 @@ public class Main extends Application{
         Settings settings = new Settings(windowWidth,windowHeight,window,mainMenuScene);
         mainMenu.getButtonByTitle("Settings").setOnMouseClicked(mouseEvent -> window.setScene(settings.getScene()));
 
-        Replays replays = new Replays(windowWidth,windowHeight,window,mainMenuScene);
-        mainMenu.getButtonByTitle("Replays").setOnMouseClicked(mouseEvent -> window.setScene(replays.getScene()));
+        mainMenu.getButtonByTitle("Replays").setOnMouseClicked(mouseEvent ->
+        {
+            Replays replays = new Replays(windowWidth,windowHeight,window,mainMenuScene);
+            window.setScene(replays.getScene());
+        });
+
         mainMenu.getButtonByTitle("Exit").setOnMouseClicked(mouseEvent -> close_handler());
         return mainMenuScene;
     }
