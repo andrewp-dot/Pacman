@@ -1,0 +1,11 @@
+game
+game.astar
+game.common
+game.fieldObjects
+game.fields
+changelog
+src
+utils
+view
+view.menu
+view.settings

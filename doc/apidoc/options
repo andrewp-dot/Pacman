@@ -1,0 +1,24 @@
+-classpath
+'/Users/andrew/.m2/repository/org/openjfx/javafx-controls/17/javafx-controls-17.jar:/Users/andrew/.m2/repository/org/openjfx/javafx-controls/17/javafx-controls-17-mac-aarch64.jar:/Users/andrew/.m2/repository/org/openjfx/javafx-graphics/17/javafx-graphics-17.jar:/Users/andrew/.m2/repository/org/openjfx/javafx-graphics/17/javafx-graphics-17-mac-aarch64.jar:/Users/andrew/.m2/repository/org/openjfx/javafx-base/17/javafx-base-17.jar:/Users/andrew/.m2/repository/org/openjfx/javafx-base/17/javafx-base-17-mac-aarch64.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'17'
+-sourcepath
+'/Users/andrew/Andrew/School/2BIT/sem2/ija/project/src'
+-author
+-bottom
+'Copyright &#169; 2023. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/Users/andrew/Andrew/School/2BIT/sem2/ija/project/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Pacman 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'Pacman 1.0-SNAPSHOT API'

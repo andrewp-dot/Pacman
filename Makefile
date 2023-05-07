@@ -26,6 +26,6 @@ clean:
 	find ./$(SRC) -type f -name '*.class' -delete
 
 zip:
-	zip -r ${PROJECT_ZIP_NAME}.zip Makefile src doc requirements.pdf readme.txt lib data
+	zip -r ${PROJECT_ZIP_NAME}.zip src doc requirements.pdf readme.txt lib data pom.xml
 
 
