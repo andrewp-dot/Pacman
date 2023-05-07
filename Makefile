@@ -26,7 +26,13 @@ clean:
 	find ./$(SRC) -type f -name '*.class' -delete
 
 zip:
-	zip -r ${PROJECT_ZIP_NAME}.zip Makefile doc src JavaFX.framework 
+	zip -r ${PROJECT_ZIP_NAME}.zip Makefile doc src JavaFX.framework requirements.pdf doc/readme.txt 
 
 zipfx:
 	zip -r JavaFX.framework.zip JavaFX.framework
+
+documentation:
+	javadoc -d doc \
+	--module-path ./JavaFX.framework/javafx-sdk-17.0.7 \
+	--module javafx.base -sourcepath ./JavaFX.framework/javafx-sdk-17.0.7/lib\
+	-subpackages src 
