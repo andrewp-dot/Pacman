@@ -19,9 +19,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- * @author Adrián Ponechal
- *
  * Creates replays and displays menu of replays
+ *
+ * @author Adrián Ponechal
  */
 public class Replays extends Menu {
     private Scene prevMenu;

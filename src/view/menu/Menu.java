@@ -8,9 +8,9 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 /**
- * @author Adrián Ponechal
- *
  * Abstract class for menus. This class provides unions structure of menu used in application.
+ *
+ * @author Adrián Ponechal
  */
 public abstract class Menu {
     protected final int minWidth;

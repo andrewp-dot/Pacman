@@ -10,10 +10,10 @@ import javafx.scene.layout.GridPane;
 import java.util.Optional;
 
 /**
+ * Dialog that displays result of the game and offers how to continue
+ *
  * @author Ondřej Vrána
  * @author Adrián Ponechal
- *
- * Dialog that displays result of the game and offers how to continue
  */
 public class ShowResult {
     Dialog<Decision> dialog;

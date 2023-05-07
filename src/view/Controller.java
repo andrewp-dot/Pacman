@@ -9,6 +9,11 @@ import view.settings.Settings;
 
 import java.io.File;
 
+/**
+ * Controls actions before and after game
+ *
+ * @Ondřej Vrána
+ */
 public class Controller {
     private File currentLevel;
     private Stage stage;
@@ -20,6 +25,10 @@ public class Controller {
         this.levelMenuScene = levelMenuScene;
     }
 
+    /**
+     * Loads level and starts game
+     * @param file
+     */
     public void loadAndPlay(File file) {
         this.currentLevel = file;
         Game game = new Game(this, Settings.getContinuesMovement());
@@ -36,6 +45,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Displays show result dialog based on result of the game
+     * @param wasWon - result of the game
+     */
     public void gameEnded(boolean wasWon) {
         Platform.runLater(new Runnable() {
             @Override

@@ -13,7 +13,7 @@ MAIN_JAVA=$(MAIN_PATH).java
 MAIN_CLASS=$(MAIN_PATH).class
 
 # constants
-PROJECT_ZIP_NAME=ija_project
+PROJECT_ZIP_NAME=xponec01
 
 make: $(MAIN_JAVA) clean
 	$(COMPILER) $(FLAGS) -cp  $(SRC) $(MAIN_JAVA)
@@ -26,13 +26,6 @@ clean:
 	find ./$(SRC) -type f -name '*.class' -delete
 
 zip:
-	zip -r ${PROJECT_ZIP_NAME}.zip Makefile doc src JavaFX.framework requirements.pdf doc/readme.txt 
+	zip -r ${PROJECT_ZIP_NAME}.zip Makefile src doc requirements.pdf readme.txt lib data
 
-zipfx:
-	zip -r JavaFX.framework.zip JavaFX.framework
 
-documentation:
-	javadoc -d doc \
-	--module-path ./JavaFX.framework/javafx-sdk-17.0.7 \
-	--module javafx.base -sourcepath ./JavaFX.framework/javafx-sdk-17.0.7/lib\
-	-subpackages src 

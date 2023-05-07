@@ -26,9 +26,10 @@ import javafx.stage.Stage;
 import utils.Observer;
 
 /**
+ * Renders {@link game.Game} in javafx gui.
+ *
  * @author Adrián Ponechal
  * @author Ondřej Vrána
- * Renders {@link game.Game} in javafx gui.
  */
 public class MazePresenter implements Observer {
     private final int fieldHeight = 50;
