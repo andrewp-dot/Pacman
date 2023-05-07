@@ -2,7 +2,7 @@ COMPILER=javac
 EXEC=java
 
 # locate javafx on macos
-PATH_TO_FX=./JavaFX.framework/javafx-sdk-17.0.7/lib
+PATH_TO_FX=./src/lib/JavaFX.framework/javafx-sdk-17.0.7/lib
 FLAGS=--module-path ${PATH_TO_FX} --add-modules javafx.fxml,javafx.controls,javafx.graphics
 
 # project structure variables
