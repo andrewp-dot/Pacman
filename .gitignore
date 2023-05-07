@@ -32,7 +32,6 @@ replay_pid*
 # Add ignores
 *.pdf
 src/out
-JavaFX.framework
 doc/javadoc-master
 target
 
