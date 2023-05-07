@@ -21,6 +21,11 @@ import javafx.stage.Window;
 import view.Controller;
 import view.MazePresenter;
 
+/**
+ * @author Adrián Ponechal
+ *
+ * Creates and displays level menu
+ */
 public class LevelMenu extends Menu {
     private final Scene scene;
     private final Scene mainMenu;
@@ -33,10 +38,18 @@ public class LevelMenu extends Menu {
         this.scene = createMenuScene();
     }
 
+    /**
+     * Gets level memnu scene
+     * @return scene
+     */
     public Scene getScene() {
         return scene;
     }
 
+    /**
+     * Gets map filenames
+     * @return list of filenames
+     */
     public List<String> getMaps() {
         return this.maps;
     }
@@ -161,7 +174,7 @@ public class LevelMenu extends Menu {
     }
 
     /**
-     * creates maze of chosen level from menu
+     * Creates maze of chosen level from menu
      *
      * @param btn - button used for level number by its ID
      */
@@ -178,9 +191,6 @@ public class LevelMenu extends Menu {
             }
         };
         new Thread(task).start();
-
-//        MazePresenter maze = new MazePresenter();
-//        return maze.CreatePacmanScene();
     }
 
 }

@@ -7,6 +7,11 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
+/**
+ * @author Adrián Ponechal
+ *
+ * Abstract class for menus. This class provides unions structure of menu used in application.
+ */
 public abstract class Menu {
     protected final int minWidth;
     protected final int minHeight;
@@ -21,6 +26,10 @@ public abstract class Menu {
         this.window = stage;
     }
 
+    /**
+     * Creates button using option name and adds it to menu
+     * @param option
+     */
     public void addOption(String opt)
     {
         Button btn = new Button(opt);
@@ -36,11 +45,21 @@ public abstract class Menu {
         for(String opt: options) addOption(opt);
     }
 
+    /**
+     * Sets title of menu
+     * @param title
+     */
     public void setTitle(String newTitle)
     {
         this.title = new Text(newTitle);
         this.title.setId("menuTitle");
     }
+
+    /**
+     * Gets button option by it's name
+     * @param title - name of the option
+     * @return button reference
+     */
     public Button getButtonByTitle(String title) {
         Button button = null;
         for(Button btn: this.menuOptions)
@@ -54,5 +73,9 @@ public abstract class Menu {
         return button;
     }
 
+    /**
+     * Abstract method that creates menu scene
+     * @return scene of the menu
+     */
     public abstract Scene createMenuScene();
 }

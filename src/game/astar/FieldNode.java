@@ -4,6 +4,11 @@ import game.common.Field;
 
 import java.util.ArrayList;
 
+/**
+ * @author Adrián Ponechal
+ *
+ * Field node used for a-star algorithm
+ */
 public class FieldNode {
     private final Field field;
     private final FieldNode prevNode;

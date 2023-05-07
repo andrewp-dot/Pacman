@@ -13,7 +13,13 @@ import view.menu.LevelMenu;
 import view.menu.Replays;
 import view.settings.Settings;
 
-public class Main extends Application{
+/**
+ * @author Adrián Ponechal
+ * @author Ondřej Vrána
+ *
+ * Main class that contains function main
+ */
+public class Main extends Application {
     // size of window in pixels
     private final int windowWidth = 500;
     private final int windowHeight = 500;
@@ -35,6 +41,9 @@ public class Main extends Application{
         window.show();
     }
 
+    /**
+     * Handles correct closing of application
+     */
     private void close_handler()
     {
         // add handling for X button -> communication between scenes / windows
@@ -46,6 +55,7 @@ public class Main extends Application{
 
     /**
      * Set ups standard menu
+     * @return menu secne
      */
     private Scene basicMenuSetup()
     {

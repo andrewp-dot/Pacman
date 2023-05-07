@@ -11,6 +11,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import view.menu.NavBar;
 
+/**
+ * @author Adrián Ponechal
+ *
+ * Creates and displays settings.
+ */
 public class Settings {
     private final Scene settingsScene;
     private final Scene mainMenu;

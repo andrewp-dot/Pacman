@@ -9,6 +9,12 @@ import javafx.scene.layout.GridPane;
 
 import java.util.Optional;
 
+/**
+ * @author Ondřej Vrána
+ * @author Adrián Ponechal
+ *
+ * Dialog that displays result of the game and offers how to continue
+ */
 public class ShowResult {
     Dialog<Decision> dialog;
 
@@ -35,6 +41,10 @@ public class ShowResult {
 
     }
 
+    /**
+     * Creates button for restart level
+     * @return button
+     */
     private Button restartButton(){
         Button btn = new Button("Restart");
         btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -46,6 +56,10 @@ public class ShowResult {
         return btn;
     }
 
+    /**
+     * Creates button that takes user back to level menu
+     * @return Button
+     */
     private Button nextButton(){
         Button btn = new Button("Next");
         btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -57,6 +71,10 @@ public class ShowResult {
         return btn;
     }
 
+    /**
+     * Waits for decison of user
+     * @return decision
+     */
     public Decision showAndWait(){
         Optional<Decision> result = dialog.showAndWait();
         return result.orElse(Decision.Next);

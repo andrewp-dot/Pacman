@@ -26,6 +26,8 @@ import javafx.stage.Stage;
 import utils.Observer;
 
 /**
+ * @author Adrián Ponechal
+ * @author Ondřej Vrána
  * Renders {@link game.Game} in javafx gui.
  */
 public class MazePresenter implements Observer {
@@ -43,6 +45,11 @@ public class MazePresenter implements Observer {
 
     private Game game;
 
+    /**
+     * Initialize maze presneter, renders maze and meze objets.
+     * @param _game game to be presented
+     * @param stage related stage to be displayed in
+     */
     public MazePresenter(Game _game, Stage stage) {
         this.game = _game;
         this.mazeRowCount = _game.getMaze().getRowCount();
@@ -115,6 +122,11 @@ public class MazePresenter implements Observer {
         });
     }
 
+    /**
+     * Sets design to field object based on its type
+     * @param imageView - design of the object
+     * @param fieldObject - object on maze
+     */
     private void setObject(ImageView imageView, FieldObject fieldObject) {
         if (fieldObject == null) {
             imageView.setImage(null);
@@ -177,6 +189,10 @@ public class MazePresenter implements Observer {
         }
     }
 
+    /**
+     * Handles user events - controls, etc.
+     * @param scene - current game scene
+     */
     private void addEventHandlersScene(Scene scene) {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -205,6 +221,12 @@ public class MazePresenter implements Observer {
         });
     }
 
+    /**
+     * Sets event handler for getting destination for pathfinding algorithm
+     * @param stackPane - pane clicked
+     * @param row - pane's row
+     * @param col - pane's col
+     */
     private void addEventHandlersStackPane(StackPane stackPane, int row, int col) {
         stackPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -214,6 +236,10 @@ public class MazePresenter implements Observer {
         });
     }
 
+    /**
+     * Creates score bar
+     * @return score bar component
+     */
     private HBox createScoreBar() {
         int unpickedKeys = 0;
         for(KeyObject k:game.getMaze().getKeys()){
