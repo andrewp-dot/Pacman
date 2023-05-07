@@ -9,6 +9,7 @@ import game.fields.PathField;
 /**
  * Represents key in pacman.
  * Keys are immortal and immovable.
+ * @author Ondřej Vrána
  */
 public class KeyObject implements FieldObject {
     private Maze ref;

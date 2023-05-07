@@ -6,6 +6,7 @@ import game.fields.*;
 /**
  * Represents ghost in pacman.
  * Ghosts are immortal.
+ * @author Ondřej Vrána
  */
 public class GhostObject implements FieldObject {
     private Maze ref;

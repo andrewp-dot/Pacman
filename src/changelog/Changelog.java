@@ -6,6 +6,10 @@ import game.MazeConfigure;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Represents a game history replay.
+ * @author Ondřej Vrána
+ */
 public class Changelog {
     public ArrayList<Coordinates> pacmanCoords;
     public ArrayList<ArrayList<Coordinates>> ghostsCoors;
@@ -16,6 +20,9 @@ public class Changelog {
 
     public int tickCount;
 
+    /**
+     * Initializes an empty object.
+     */
     public Changelog() {
         this.pacmanCoords = new ArrayList<>();
         this.ghostsCoors = new ArrayList<>();
@@ -24,6 +31,11 @@ public class Changelog {
         this.maze = null;
     }
 
+    /**
+     * Opens and loads game log from given {@link File}.
+     * @param file file to load game log from.
+     * @throws Exception Invalid or non-existing file.
+     */
     public void parse(File file) throws Exception {
         MazeConfigure conf = new MazeConfigure();
         FileReader fr = new FileReader(file);

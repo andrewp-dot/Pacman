@@ -12,6 +12,7 @@ import java.util.ArrayList;
 /**
  * Represents blank field to which {@link FieldObject FieldObjects} can move.
  * Changes can be registered by {@link Observer Observers}.
+ * @author Ondřej Vrána
  */
 public class PathField implements Field, Observable {
     private int row;
@@ -86,12 +87,6 @@ public class PathField implements Field, Observable {
     public boolean canMove() {
         return true;
     }
-
-    // TODO figure out what for
-//    public boolean contains(CommonMazeObject obj)
-//    {
-//        return mazeObjects.contains(obj);
-//    }
 
     /**
      * Objects are equal if they belong to the same class na they column and row indexes match.

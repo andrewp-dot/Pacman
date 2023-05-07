@@ -6,6 +6,7 @@ import game.fields.*;
 
 /**
  * Represents pacman in pacman.
+ * @author Ondřej Vrána
  */
 public class PacmanObject implements FieldObject {
     private Maze ref;

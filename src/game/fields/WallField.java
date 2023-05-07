@@ -4,6 +4,7 @@ import game.common.*;
 
 /**
  * Represents unattainable field to which {@link FieldObject FieldObjects} can NOT move.
+ * @author Ondřej Vrána
  */
 public class WallField implements Field {
     private int row;
@@ -102,13 +103,6 @@ public class WallField implements Field {
     {
         return false;
     }
-
-    // TODO figure out what for
-//    @Override
-//    public boolean contains(CommonMazeObject obj)
-//    {
-//        return false;
-//    }
 
     /**
      * Objects are equal if they belong to the same class na they column and row indexes match.

@@ -2,6 +2,7 @@ package utils;
 
 /**
  * Common interface for Observer.
+ * @author Ondřej Vrána
  */
 public interface Observer {
     /**

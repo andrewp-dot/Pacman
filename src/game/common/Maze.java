@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Common interface for maze.
+ * @author Ondřej Vrána
  */
 public interface Maze {
 

@@ -3,12 +3,14 @@ package game.common;
 /**
  * Common interface for all field types that are in maze.
  *
+ * @author Ondřej Vrána
  * @see Maze
  */
 public interface Field {
 
     /**
      * Directions of movement.
+     * @author Ondřej Vrána
      */
     enum Direction {
         L, // left

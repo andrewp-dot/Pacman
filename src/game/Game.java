@@ -20,6 +20,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Creates maze from given file and runs.
+ *
+ * @author Ondřej Vrána
  */
 public class Game {
     // properties below are synchronized, access strictly through getter and setter methods!!
@@ -48,11 +50,22 @@ public class Game {
 
     public static boolean terminate = false;
 
+    /**
+     * Determines which type of movement was set by player.
+     *
+     * @author Ondřej Vrána
+     */
     enum MovementType {
         DIRECTION,
         DESTINATION
     }
 
+    /**
+     * Creates an empty game.
+     *
+     * @param controller         Controller handling events before the game beginning and after the game end.
+     * @param continuousMovement Type of movement from settings.
+     */
     public Game(Controller controller, boolean continuousMovement) {
         maze = null;
         timer = new Timer();
@@ -74,7 +87,7 @@ public class Game {
      * @param file file to load maze from.
      */
     public void loadMaze(File file) throws Exception {
-        changelogPath = file.getName().substring(0, file.getName().length()-4);
+        changelogPath = file.getName().substring(0, file.getName().length() - 4);
         changelogPath = "src/replays/" + changelogPath;
         MazeConfigure conf = new MazeConfigure();
         FileReader fr = new FileReader(file);
@@ -114,15 +127,29 @@ public class Game {
         buffr.close();
     }
 
+    /**
+     * @return Stored maze.
+     */
     public MazeClass getMaze() {
         return maze;
     }
 
+    /**
+     * Adds observer to all elements in maze that require it.
+     *
+     * @param observer Added observer.
+     */
     public void addObserver(Observer observer) {
         addObserver(observer, this.maze);
     }
 
-    public static void addObserver(Observer observer, MazeClass maze){
+    /**
+     * Static version of {@link Game#addObserver(Observer)}.
+     *
+     * @param observer Observer to add.
+     * @param maze     Maze to add observer into.
+     */
+    public static void addObserver(Observer observer, MazeClass maze) {
         for (int i = 0; i < maze.getRowCount(); i++) {
             for (int j = 0; j < maze.getColCount(); j++) {
                 if (maze.getField(i, j) instanceof Observable) {
@@ -133,6 +160,11 @@ public class Game {
         maze.addObserver(observer);
     }
 
+    /**
+     * Setter for synchronized property {@link Game#pacmanMove}.
+     *
+     * @param dir Value to set property to.
+     */
     public void setDirection(Field.Direction dir) {
         lock.lock();
         this.pacmanMoveType = MovementType.DIRECTION;
@@ -144,15 +176,18 @@ public class Game {
                 this.futureMoveSet = true;
                 this.pacmanFutureMove = dir;
             }
-        }
-        else
-        {
+        } else {
             this.pacmanMove = dir;
             this.shouldMove = true;
         }
         lock.unlock();
     }
 
+    /**
+     * Getter for synchronized property {@link Game#pacmanMove}.
+     *
+     * @return Value of the property.
+     */
     public Field.Direction getDirection() {
         try {
             lock.lock();
@@ -163,12 +198,17 @@ public class Game {
         }
     }
 
+    /**
+     * Returns next direction to move to from A*.
+     *
+     * @return Direction to move to from A*.
+     */
     private Field.Direction getDirectionsDirection() {
         try {
             lock.lock();
             Field.Direction dir = this.pacmanMovs.get(this.pacmanMovsIndex);
             this.pacmanMovsIndex++;
-            if (this.pacmanMovsIndex == this.pacmanMovs.size()){
+            if (this.pacmanMovsIndex == this.pacmanMovs.size()) {
                 this.shouldMove = false;
             }
             return dir;
@@ -178,6 +218,11 @@ public class Game {
         }
     }
 
+    /**
+     * Setter for synchronized property {@link Game#pacmanMovs}.
+     *
+     * @param directions Value to set property to.
+     */
     public void setDirections(ArrayList<Field.Direction> directions) {
         lock.lock();
         this.pacmanMovs = directions;
@@ -188,6 +233,11 @@ public class Game {
         lock.unlock();
     }
 
+    /**
+     * Sets destination row and col. Starts A* to calculate the path to given destination
+     * @param row Row index of destination.
+     * @param col Column index of destination.
+     */
     public void setDestination(int row, int col) {
         lock.lock();
         this.destinationRow = row;
@@ -195,9 +245,9 @@ public class Game {
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                Astar a = new Astar(getMaze().getMap(),getMaze().getPacman().getField(),getMaze().getField(row, col));
+                Astar a = new Astar(getMaze().getMap(), getMaze().getPacman().getField(), getMaze().getField(row, col));
                 ArrayList<Field.Direction> display = a.aStar();
-                if (display != null){
+                if (display != null) {
                     setDirections(display);
                 }
                 return null;
@@ -207,7 +257,12 @@ public class Game {
         lock.unlock();
     }
 
-    private void setShouldMove(boolean should){
+    /**
+     * Setter for synchronized property {@link Game#shouldMove}.
+     *
+     * @param should Value to set property to.
+     */
+    private void setShouldMove(boolean should) {
         lock.lock();
         this.shouldMove = should;
         lock.unlock();
@@ -252,8 +307,10 @@ public class Game {
         }
     }
 
+    /**
+     * Starts the game.
+     */
     public void play() {
-//        ticker.play();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -262,13 +319,16 @@ public class Game {
         }, 0, 250);
     }
 
+    /**
+     * Handles one game tick.
+     */
     private void runTick() {
         if (terminate) {
             timer.cancel();
             try {
                 writer.close();
+            } catch (Exception ignored) {
             }
-            catch (Exception ignored){}
             return;
         }
 
@@ -337,19 +397,18 @@ public class Game {
         // pacman coordinates
         log.append(maze.getPacman().getField().getRow()).append(" ").append(maze.getPacman().getField().getCol()).append(" ");
         // all ghosts coordinates
-        for (GhostObject g: maze.getGhosts()){
+        for (GhostObject g : maze.getGhosts()) {
             log.append(g.getField().getRow()).append(" ").append(g.getField().getCol()).append(" ");
         }
         // all keys isPicked
-        for (KeyObject k: maze.getKeys()){
-            log.append(k.getIsPicked()? "Picked ":"Active ");
+        for (KeyObject k : maze.getKeys()) {
+            log.append(k.getIsPicked() ? "Picked " : "Active ");
         }
         // pacman lives
         log.append(maze.getPacman().getLives()).append("\n");
-        try{
+        try {
             writer.write(log.toString());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Unable to write to file");
             System.out.println(e.getMessage());
         }
@@ -360,8 +419,8 @@ public class Game {
             controller.gameEnded(false);
             try {
                 writer.close();
+            } catch (Exception ignored) {
             }
-            catch (Exception ignored){}
             return;
         }
 
@@ -380,12 +439,10 @@ public class Game {
                 controller.gameEnded(true);
                 try {
                     writer.close();
+                } catch (Exception ignored) {
                 }
-                catch (Exception ignored){}
                 return;
             }
         }
     }
-
-    // TODO add methods for working with changelog
 }

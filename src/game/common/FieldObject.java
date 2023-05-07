@@ -3,6 +3,7 @@ package game.common;
 /**
  * Common interface for all objects in {@link Maze}.
  *
+ * @author Ondřej Vrána
  * @see Maze
  */
 public interface FieldObject {

@@ -10,6 +10,10 @@ import utils.Observer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents maze.
+ * @author Ondřej Vrána
+ */
 public class MazeClass implements Maze, Observable {
     private Field[][] map;
     private int rowCount;
@@ -22,6 +26,15 @@ public class MazeClass implements Maze, Observable {
     private EndField target;
     private StartField start;
 
+    /**
+     * Create empty maze.
+     * @param _map Map of maze.
+     * @param _rowCount Number of rows in the map.
+     * @param _colCount Number of columns in the map.
+     * @param _pacman Pacman from the map.
+     * @param _ghostList All ghosts from the map.
+     * @param _keyList All keys from the map.
+     */
     public MazeClass(Field[][] _map, int _rowCount, int _colCount,
                      PacmanObject _pacman, ArrayList<GhostObject> _ghostList, ArrayList<KeyObject> _keyList) {
         map = _map;

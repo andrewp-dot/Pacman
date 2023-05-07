@@ -182,7 +182,6 @@ import game.fields.WallField;
 
 import java.util.ArrayList;
 
-// TODO use better format
 /**
  * Creates {@link MazeClass} from given lines surrounded by {@link WallField}
  * from all sides (does not need to be in the stream).
@@ -190,12 +189,15 @@ import java.util.ArrayList;
  * Line has to be a series of characters ending with \n.
  * <p>
  * Types of {@link Field} and {@link FieldObject} are represented by characters:
- * * 'T' ... (target) represented by {@link EndField}
- * * 'X' ... (wall) represented by {@link WallField}
- * * 'G' ... (ghost) represented by {@link PathField} with  {@link GhostObject}
- * * 'K' ... (key) represented by {@link PathField} with {@link KeyObject}
- * * '.' ... (path) represented by {@link PathField}
- * * 'S' ... (start) represented by {@link StartField}
+ * <ul>
+ * <li> 'T' ... (target) represented by {@link EndField} </li>
+ * <li> 'X' ... (wall) represented by {@link WallField} </li>
+ * <li> 'G' ... (ghost) represented by {@link PathField} with  {@link GhostObject} </li>
+ * <li> 'K' ... (key) represented by {@link PathField} with {@link KeyObject} </li>
+ * <li> '.' ... (path) represented by {@link PathField} </li>
+ * <li> 'S' ... (start) represented by {@link StartField} </li>
+ * </ul>
+ * @author Ondřej Vrána
  */
 public class MazeConfigure {
     private Field[][] game;

@@ -2,6 +2,7 @@ package utils;
 
 /**
  * Common interface for Observable object.
+ * @author Ondřej Vrána
  */
 public interface Observable {
     /**

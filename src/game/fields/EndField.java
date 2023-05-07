@@ -2,6 +2,7 @@ package game.fields;
 
 /**
  * Represents target field in pacman.
+ * @author Ondřej Vrána
  */
 public class EndField extends PathField {
 
