@@ -34,5 +34,6 @@ replay_pid*
 src/out
 JavaFX.framework
 doc/javadoc-master
+target
 
 !requirements.pdf
