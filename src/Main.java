@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /* Custom imports */
+import view.MazePresenterLog;
 import view.menu.MainMenu;
 import view.menu.Menu;
 import view.menu.LevelMenu;
@@ -37,6 +38,7 @@ public class Main extends Application{
         // add handling for X button -> comunication between scenes / windows
         System.out.println("Bye bye...");
         Game.terminate = true;
+        MazePresenterLog.terminate = true;
         window.close();
     }
 

@@ -14,6 +14,8 @@ public class Changelog {
 
     public MazeClass maze;
 
+    public int tickCount;
+
     public Changelog() {
         this.pacmanCoords = new ArrayList<>();
         this.ghostsCoors = new ArrayList<>();
@@ -97,6 +99,7 @@ public class Changelog {
             // pacman_lives
             this.pacmanLives.add(Integer.parseInt(values[valueIndex]));
         }
+        this.tickCount = this.pacmanLives.size();
         buffr.close();
     }
 }

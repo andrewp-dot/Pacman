@@ -123,7 +123,14 @@ public class PacmanObject implements FieldObject {
      */
     @Override
     public void loseLive(){
+        // TODO notify observer
         lives-=1;
+    }
+
+    @Override
+    public void setLives(int lives) {
+        // TODO notify observer
+        this.lives = lives;
     }
 
     /**

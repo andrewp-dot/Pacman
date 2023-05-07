@@ -44,6 +44,14 @@ public interface FieldObject {
     void loseLive();
 
     /**
+     * Sets object lives count.
+     * Throws {@link UnsupportedOperationException} if object is immortal.
+     *
+     * @param lives Number to set lives to.
+     */
+    void setLives(int lives);
+
+    /**
      * Sets a reference to {@link Maze}.
      *
      * @param maze maze to set the reference to.

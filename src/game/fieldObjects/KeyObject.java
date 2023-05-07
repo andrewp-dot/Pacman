@@ -3,6 +3,7 @@ package game.fieldObjects;
 import game.common.Field;
 import game.common.FieldObject;
 import game.common.Maze;
+import game.fields.PathField;
 
 /**
  * Represents key in pacman.
@@ -78,6 +79,14 @@ public class KeyObject implements FieldObject {
      * {@inheritDoc}
      */
     @Override
+    public void setLives(int lives) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setMaze(Maze maze) {
         this.ref = maze;
     }
@@ -102,5 +111,6 @@ public class KeyObject implements FieldObject {
      */
     public void setIsPicked(boolean isPicked){
         this.isPicked = isPicked;
+        ((PathField)getField()).notifyObservers();
     }
 }

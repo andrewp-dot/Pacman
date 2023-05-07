@@ -126,6 +126,14 @@ public class GhostObject implements FieldObject {
      * {@inheritDoc}
      */
     @Override
+    public void setLives(int lives) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setMaze(Maze maze)
     {
         ref = maze;

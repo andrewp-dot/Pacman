@@ -110,7 +110,7 @@ public class Replays extends Menu {
                             return null;
                         }
                         maze = changelog.maze;
-                        MazePresenterLog mazePresenterLog = new MazePresenterLog(maze, window);
+                        MazePresenterLog mazePresenterLog = new MazePresenterLog(changelog, window, scene);
                         Game.addObserver(mazePresenterLog, maze);
                         return null;
                     }
