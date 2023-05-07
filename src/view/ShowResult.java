@@ -1,6 +1,7 @@
 package view;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
 import javafx.scene.input.MouseEvent;
@@ -28,6 +29,10 @@ public class ShowResult {
         options.add(restartButton(), 0, 0);
         options.add(nextButton(), 0, 1);
         dialog.getDialogPane().setContent(options);
+        dialog.getDialogPane().getStylesheets().add("styles/showResult.css");
+        options.setId("showResult");
+        options.setAlignment(Pos.CENTER);
+
     }
 
     private Button restartButton(){

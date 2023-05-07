@@ -45,9 +45,9 @@ public class MazePresenter implements Observer {
         this.mazeColumnCount = _game.getMaze().getColCount();
 
         this.fieldObjects = new ImageView[mazeRowCount][mazeColumnCount];
-        pacman = new Image("imgs/pacman.png");
-        key = new Image("imgs/key.png");
-        ghost = new Image("imgs/ghost.png");
+        pacman = new Image("lib/imgs/pacman.png");
+        key = new Image("lib/imgs/key.png");
+        ghost = new Image("lib/imgs/ghost.png");
 
         // Create root with score bar
         VBox root = new VBox();
@@ -61,10 +61,10 @@ public class MazePresenter implements Observer {
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/maze.css");
 
-        Image path = new Image("imgs/path.png");
-        Image wall = new Image("imgs/wall.jpg");
-        Image end = new Image("imgs/target.png");
-        Image start = new Image("imgs/start.png");
+        Image path = new Image("lib/imgs/path.png");
+        Image wall = new Image("lib/imgs/wall.jpg");
+        Image end = new Image("lib/imgs/target.png");
+        Image start = new Image("lib/imgs/start.png");
 
         for (int i = 0; i < mazeRowCount; i++) {
             for (int j = 0; j < mazeColumnCount; j++) {

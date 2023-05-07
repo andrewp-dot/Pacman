@@ -48,7 +48,7 @@ public class Main extends Application{
     private Scene basicMenuSetup()
     {
         Menu mainMenu = new MainMenu(windowWidth,windowHeight,window);
-        mainMenu.setTitle("Main Pacmenu");
+        mainMenu.setTitle("Pacman Game");
         mainMenu.addOptions("Play","Settings","Replays","Exit");
 
         // change this to level setups

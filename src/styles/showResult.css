@@ -1,0 +1,22 @@
+.root {
+    -fx-background-color: rgb(50,100,150);
+}
+
+#showResult {
+    -fx-min-height: 200px;
+    -fx-min-width: 200px;
+    -fx-background-color: rgb(50,100,150);
+}
+
+#showResult .button {
+    -fx-background-color: transparent;
+    -fx-text-fill: White;
+    -fx-font-size: 25;
+    -fx-min-width: 150px;
+    -fx-min-height: 50px;
+}
+
+#showResult .button:hover {
+    -fx-background-color: rgb(200,200,0);
+    -fx-text-fill: Black;
+}

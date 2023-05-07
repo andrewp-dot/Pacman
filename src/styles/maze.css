@@ -10,4 +10,20 @@
     -fx-border-color: rgb(50,50,50);
 }
 
-ää
+#actions .button {
+}
+
+.button {
+    -fx-background-color: transparent;
+    -fx-text-fill: White;
+}
+
+.button:hover {
+    -fx-background-color: rgb(200,200,0);
+    -fx-text-fill: Black;
+}
+
+
+#actions {
+    -fx-background-color: rgb(110,100,100);
+}
