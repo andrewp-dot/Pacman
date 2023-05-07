@@ -289,9 +289,10 @@ public class MazePresenterLog implements Observer {
         // set buttons actions
         btnBack.setOnMouseClicked(mouseEvent -> {
             try {
-                if (timer != null){
+                if (timer != null) {
                     timer.cancel();
                     timer.purge();
+                    timer = null;
                 }
             } catch (Exception ignored) {
             }
@@ -299,9 +300,10 @@ public class MazePresenterLog implements Observer {
         });
         btnStart.setOnMouseClicked(mouseEvent -> {
             try {
-                if (timer != null){
+                if (timer != null) {
                     timer.cancel();
                     timer.purge();
+                    timer = null;
                 }
             } catch (Exception ignored) {
             }
@@ -309,9 +311,10 @@ public class MazePresenterLog implements Observer {
         });
         btnPlayReverse.setOnMouseClicked(mouseEvent -> {
             try {
-                if (timer != null){
+                if (timer != null) {
                     timer.cancel();
                     timer.purge();
+                    timer = null;
                 }
             } catch (Exception ignored) {
             }
@@ -319,9 +322,10 @@ public class MazePresenterLog implements Observer {
         });
         btnPrevious.setOnMouseClicked(mouseEvent -> {
             try {
-                if (timer != null){
+                if (timer != null) {
                     timer.cancel();
                     timer.purge();
+                    timer = null;
                 }
             } catch (Exception ignored) {
             }
@@ -329,9 +333,10 @@ public class MazePresenterLog implements Observer {
         });
         btnNext.setOnMouseClicked(mouseEvent -> {
             try {
-                if (timer != null){
+                if (timer != null) {
                     timer.cancel();
                     timer.purge();
+                    timer = null;
                 }
             } catch (Exception ignored) {
             }
@@ -342,6 +347,7 @@ public class MazePresenterLog implements Observer {
                 if (timer != null) {
                     timer.cancel();
                     timer.purge();
+                    timer = null;
                 }
             } catch (Exception ignored) {
             }
@@ -352,6 +358,7 @@ public class MazePresenterLog implements Observer {
                 if (timer != null) {
                     timer.cancel();
                     timer.purge();
+                    timer = null;
                 }
             } catch (Exception ignored) {
             }
@@ -386,7 +393,10 @@ public class MazePresenterLog implements Observer {
             @Override
             public void run() {
                 if (terminate) {
-                    timer.cancel();
+                    if (timer != null) {
+                        timer.cancel();
+                        timer = null;
+                    }
                     return;
                 }
                 previous();
@@ -401,7 +411,10 @@ public class MazePresenterLog implements Observer {
             this.currentTickLock.unlock();
             goToTick(tick);
         } else {
-            timer.cancel();
+            if (timer != null){
+                timer.cancel();
+                timer = null;
+            }
             this.currentTickLock.unlock();
         }
     }
@@ -413,7 +426,10 @@ public class MazePresenterLog implements Observer {
             this.currentTickLock.unlock();
             goToTick(tick);
         } else {
-            timer.cancel();
+            if (timer != null){
+                timer.cancel();
+                timer = null;
+            }
             this.currentTickLock.unlock();
         }
     }
@@ -424,7 +440,10 @@ public class MazePresenterLog implements Observer {
             @Override
             public void run() {
                 if (terminate) {
-                    timer.cancel();
+                    if (timer != null){
+                        timer.cancel();
+                        timer = null;
+                    }
                     return;
                 }
                 next();
