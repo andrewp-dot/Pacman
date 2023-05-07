@@ -4,17 +4,20 @@ import game.common.*;
 import game.fieldObjects.*;
 import game.fields.EndField;
 import game.fields.StartField;
+import utils.Observable;
+import utils.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MazeClass implements Maze {
+public class MazeClass implements Maze, Observable {
     private Field[][] map;
     private int rowCount;
     private int colCount;
     private PacmanObject pacman;
     private ArrayList<GhostObject> ghostList;
     private ArrayList<KeyObject> keyList;
+    private ArrayList<Observer> observers;
 
     private EndField target;
     private StartField start;
@@ -27,6 +30,7 @@ public class MazeClass implements Maze {
         ghostList = _ghostList;
         keyList = _keyList;
         pacman = _pacman;
+        observers = new ArrayList<>();
 
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < colCount; j++) {
@@ -105,4 +109,30 @@ public class MazeClass implements Maze {
      * Gets game map
      */
     public Field[][] getMap() { return this.map; }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addObserver(Observer observer) {
+        this.observers.add(observer);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean removeObserver(Observer observer) {
+        return this.observers.remove(observer);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : this.observers) {
+            observer.update(this);
+        }
+    }
 }

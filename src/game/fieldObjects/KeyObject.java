@@ -1,5 +1,6 @@
 package game.fieldObjects;
 
+import game.MazeClass;
 import game.common.Field;
 import game.common.FieldObject;
 import game.common.Maze;
@@ -112,5 +113,6 @@ public class KeyObject implements FieldObject {
     public void setIsPicked(boolean isPicked){
         this.isPicked = isPicked;
         ((PathField)getField()).notifyObservers();
+        ((MazeClass)ref).notifyObservers();
     }
 }

@@ -3,6 +3,7 @@ package view;
 import game.Game;
 import game.common.Field;
 import game.common.FieldObject;
+import game.common.Maze;
 import game.fieldObjects.GhostObject;
 import game.fieldObjects.KeyObject;
 import game.fieldObjects.PacmanObject;
@@ -33,6 +34,9 @@ public class MazePresenter implements Observer {
     private int mazeRowCount;
     private int mazeColumnCount;
     private ImageView[][] fieldObjects;
+    private Text keyPickText;
+    private Text heartsText;
+
     private Image pacman;
     private Image ghost;
     private Image key;
@@ -57,7 +61,7 @@ public class MazePresenter implements Observer {
         GridPane maze = new GridPane();
 
         // Add score bar and maze to scene
-        root.getChildren().addAll(scoreBar,maze);
+        root.getChildren().addAll(scoreBar, maze);
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/maze.css");
 
@@ -127,32 +131,50 @@ public class MazePresenter implements Observer {
 
     @Override
     public void update(Object obj) {
-        if (!(obj instanceof PathField)) {
-            throw new UnsupportedOperationException();
-        }
+        if (obj instanceof PathField) {
+            PathField updated = (PathField) obj;
+            FieldObject last = updated.getLast();
+            int row = updated.getRow();
+            int col = updated.getCol();
 
-        PathField updated = (PathField) obj;
-        FieldObject last = updated.getLast();
-        int row = updated.getRow();
-        int col = updated.getCol();
-
-        Image newImage;
-        if (last instanceof GhostObject) {
-            newImage = ghost;
-        } else if (last instanceof PacmanObject) {
-            newImage = pacman;
-        } else if (last instanceof KeyObject) {
-            newImage = key;
-        } else {
-            newImage = null;
-        }
-
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                fieldObjects[row][col].setImage(newImage);
+            Image newImage;
+            if (last instanceof GhostObject) {
+                newImage = ghost;
+            } else if (last instanceof PacmanObject) {
+                newImage = pacman;
+            } else if (last instanceof KeyObject) {
+                newImage = key;
+            } else {
+                newImage = null;
             }
-        });
+
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    fieldObjects[row][col].setImage(newImage);
+                }
+            });
+        }
+        else if (obj instanceof Maze){
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    int unpickedKeys = 0;
+                    for(KeyObject k:game.getMaze().getKeys()){
+                        if (!k.getIsPicked()){
+                            unpickedKeys++;
+                        }
+                    }
+
+                    heartsText.setText("Lives: " + game.getMaze().getPacman().getLives());
+                    keyPickText.setText("Keys not picked: " + unpickedKeys);
+                }
+            });
+        }
+        else{
+            throw new UnsupportedOperationException();
+
+        }
     }
 
     private void addEventHandlersScene(Scene scene) {
@@ -192,13 +214,21 @@ public class MazePresenter implements Observer {
         });
     }
 
-    private HBox createScoreBar()
-    {
-        StackPane keyPick = createScoreBarItem("Key: no", Pos.CENTER);
-        StackPane hearts = createScoreBarItem("Hearts: HEARTSNUM",Pos.CENTER);
+    private HBox createScoreBar() {
+        int unpickedKeys = 0;
+        for(KeyObject k:game.getMaze().getKeys()){
+            if (!k.getIsPicked()){
+                unpickedKeys++;
+            }
+        }
+        StackPane keyPick = createScoreBarItem("Keys not picked: " + unpickedKeys , Pos.CENTER);
+        StackPane hearts = createScoreBarItem("Lives: " + game.getMaze().getPacman().getLives(), Pos.CENTER);
 
-        HBox scoreBar = new HBox(keyPick,hearts);
-        HBox.setHgrow(keyPick,Priority.ALWAYS);
+        keyPickText = (Text)keyPick.getChildren().get(0);
+        heartsText = (Text)hearts.getChildren().get(0);
+
+        HBox scoreBar = new HBox(keyPick, hearts);
+        HBox.setHgrow(keyPick, Priority.ALWAYS);
         HBox.setHgrow(hearts, Priority.ALWAYS);
         scoreBar.setId("scoreBar");
         return scoreBar;
@@ -206,16 +236,16 @@ public class MazePresenter implements Observer {
 
     /**
      * Creates score bar item
+     *
      * @param text output text
      * @return score bar item stack pane
      */
-    private StackPane createScoreBarItem(String text, Pos alignment)
-    {
+    private StackPane createScoreBarItem(String text, Pos alignment) {
         StackPane scoreBarOption = new StackPane();
         scoreBarOption.setId("scoreBarOption");
         scoreBarOption.setAlignment(alignment);
         Text txt = new Text(text);
-        txt.setFill(Color.rgb(220,220,220));
+        txt.setFill(Color.rgb(220, 220, 220));
         scoreBarOption.getChildren().add(txt);
         return scoreBarOption;
     }

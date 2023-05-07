@@ -1,5 +1,6 @@
 package game.fieldObjects;
 
+import game.MazeClass;
 import game.common.*;
 import game.fields.*;
 
@@ -125,12 +126,14 @@ public class PacmanObject implements FieldObject {
     public void loseLive(){
         // TODO notify observer
         lives-=1;
+        ((MazeClass)ref).notifyObservers();
     }
 
     @Override
     public void setLives(int lives) {
         // TODO notify observer
         this.lives = lives;
+        ((MazeClass)ref).notifyObservers();
     }
 
     /**

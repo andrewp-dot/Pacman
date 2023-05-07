@@ -35,7 +35,7 @@ public class Main extends Application{
 
     private void close_handler()
     {
-        // add handling for X button -> comunication between scenes / windows
+        // add handling for X button -> communication between scenes / windows
         System.out.println("Bye bye...");
         Game.terminate = true;
         MazePresenterLog.terminate = true;

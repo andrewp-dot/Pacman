@@ -130,6 +130,7 @@ public class Game {
                 }
             }
         }
+        maze.addObserver(observer);
     }
 
     public void setDirection(Field.Direction dir) {
