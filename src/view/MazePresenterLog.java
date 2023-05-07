@@ -132,7 +132,8 @@ public class MazePresenterLog implements Observer {
 
 //        addEventHandlersScene(scene);
         Platform.runLater(new Runnable() {
-            @Override            public void run() {
+            @Override
+            public void run() {
                 stage.setScene(scene);
                 stage.show();
             }
@@ -167,10 +168,9 @@ public class MazePresenterLog implements Observer {
             } else if (last instanceof PacmanObject) {
                 newImage = pacman;
             } else if (last instanceof KeyObject) {
-                if (((KeyObject)last).getIsPicked()){
+                if (((KeyObject) last).getIsPicked()) {
                     newImage = null;
-                }
-                else {
+                } else {
                     newImage = key;
                 }
             } else {
@@ -183,14 +183,13 @@ public class MazePresenterLog implements Observer {
                     fieldObjects[row][col].setImage(newImage);
                 }
             });
-        }
-        else if (obj instanceof Maze){
+        } else if (obj instanceof Maze) {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
                     int unpickedKeys = 0;
-                    for(KeyObject k:mazeClass.getKeys()){
-                        if (!k.getIsPicked()){
+                    for (KeyObject k : mazeClass.getKeys()) {
+                        if (!k.getIsPicked()) {
                             unpickedKeys++;
                         }
                     }
@@ -199,8 +198,7 @@ public class MazePresenterLog implements Observer {
                     keyPickText.setText("Keys not picked: " + unpickedKeys);
                 }
             });
-        }
-        else{
+        } else {
             throw new UnsupportedOperationException();
         }
     }
@@ -244,16 +242,16 @@ public class MazePresenterLog implements Observer {
 
     private HBox createScoreBar() {
         int unpickedKeys = 0;
-        for(KeyObject k:mazeClass.getKeys()){
-            if (!k.getIsPicked()){
+        for (KeyObject k : mazeClass.getKeys()) {
+            if (!k.getIsPicked()) {
                 unpickedKeys++;
             }
         }
-        StackPane keyPick = createScoreBarItem("Keys not picked: " + unpickedKeys , Pos.CENTER);
+        StackPane keyPick = createScoreBarItem("Keys not picked: " + unpickedKeys, Pos.CENTER);
         StackPane hearts = createScoreBarItem("Lives: " + mazeClass.getPacman().getLives(), Pos.CENTER);
 
-        keyPickText = (Text)keyPick.getChildren().get(0);
-        heartsText = (Text)hearts.getChildren().get(0);
+        keyPickText = (Text) keyPick.getChildren().get(0);
+        heartsText = (Text) hearts.getChildren().get(0);
 
         HBox scoreBar = new HBox(keyPick, hearts);
         HBox.setHgrow(keyPick, Priority.ALWAYS);
@@ -290,52 +288,73 @@ public class MazePresenterLog implements Observer {
 
         // set buttons actions
         btnBack.setOnMouseClicked(mouseEvent -> {
-            try{
-                timer.cancel();
-            }catch (Exception ignored){}
-            timer.purge();
+            try {
+                if (timer != null){
+                    timer.cancel();
+                    timer.purge();
+                }
+            } catch (Exception ignored) {
+            }
             back();
         });
         btnStart.setOnMouseClicked(mouseEvent -> {
-            try{
-                timer.cancel();
-            }catch (Exception ignored){}
-            timer.purge();
+            try {
+                if (timer != null){
+                    timer.cancel();
+                    timer.purge();
+                }
+            } catch (Exception ignored) {
+            }
             start();
         });
         btnPlayReverse.setOnMouseClicked(mouseEvent -> {
-            try{
-                timer.cancel();
-            }catch (Exception ignored){}
-            timer.purge();
+            try {
+                if (timer != null){
+                    timer.cancel();
+                    timer.purge();
+                }
+            } catch (Exception ignored) {
+            }
             playReverse();
         });
         btnPrevious.setOnMouseClicked(mouseEvent -> {
-            try{
-                timer.cancel();
-            }catch (Exception ignored){}
-            timer.purge();
+            try {
+                if (timer != null){
+                    timer.cancel();
+                    timer.purge();
+                }
+            } catch (Exception ignored) {
+            }
             previous();
         });
         btnNext.setOnMouseClicked(mouseEvent -> {
-            try{
-                timer.cancel();
-            }catch (Exception ignored){}
-            timer.purge();
+            try {
+                if (timer != null){
+                    timer.cancel();
+                    timer.purge();
+                }
+            } catch (Exception ignored) {
+            }
             next();
         });
         btnPlay.setOnMouseClicked(mouseEvent -> {
-            try{
-                timer.cancel();
-            }catch (Exception ignored){}
-            timer.purge();
+            try {
+                if (timer != null) {
+                    timer.cancel();
+                    timer.purge();
+                }
+            } catch (Exception ignored) {
+            }
             play();
         });
         btnEnd.setOnMouseClicked(mouseEvent -> {
-            try{
-                timer.cancel();
-            }catch (Exception ignored){}
-            timer.purge();
+            try {
+                if (timer != null) {
+                    timer.cancel();
+                    timer.purge();
+                }
+            } catch (Exception ignored) {
+            }
             end();
         });
 
@@ -366,7 +385,7 @@ public class MazePresenterLog implements Observer {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (terminate){
+                if (terminate) {
                     timer.cancel();
                     return;
                 }
@@ -381,8 +400,7 @@ public class MazePresenterLog implements Observer {
             int tick = --this.currentTick;
             this.currentTickLock.unlock();
             goToTick(tick);
-        }
-        else{
+        } else {
             timer.cancel();
             this.currentTickLock.unlock();
         }
@@ -394,8 +412,7 @@ public class MazePresenterLog implements Observer {
             int tick = ++this.currentTick;
             this.currentTickLock.unlock();
             goToTick(tick);
-        }
-        else{
+        } else {
             timer.cancel();
             this.currentTickLock.unlock();
         }
@@ -406,7 +423,7 @@ public class MazePresenterLog implements Observer {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (terminate){
+                if (terminate) {
                     timer.cancel();
                     return;
                 }
