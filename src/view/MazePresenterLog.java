@@ -36,6 +36,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
+ * @author Ondřej Vrána
  * Renders {@link game.Game} in javafx gui.
  */
 public class MazePresenterLog implements Observer {
@@ -61,7 +62,12 @@ public class MazePresenterLog implements Observer {
     private Timer timer;
     public static boolean terminate = false;
 
-
+    /**
+     * Creates and displays maze from replay
+     * @param changelog
+     * @param stage
+     * @param replays
+     */
     public MazePresenterLog(Changelog changelog, Stage stage, Scene replays) {
         this.mazeClass = changelog.maze;
         this.changelog = changelog;
@@ -140,6 +146,11 @@ public class MazePresenterLog implements Observer {
         });
     }
 
+    /**
+     * Sets object on presented field
+     * @param imageView - object design
+     * @param fieldObject - object on maze
+     */
     private void setObject(ImageView imageView, FieldObject fieldObject) {
         if (fieldObject == null) {
             imageView.setImage(null);
@@ -203,43 +214,10 @@ public class MazePresenterLog implements Observer {
         }
     }
 
-//    private void addEventHandlersScene(Scene scene) {
-//        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-//            @Override
-//            public void handle(KeyEvent keyEvent) {
-//                switch (keyEvent.getCode()) {
-//                    case UP:
-//                    case W:
-//                        game.setDirection(Field.Direction.U);
-//                        break;
-//                    case DOWN:
-//                    case S:
-//                        game.setDirection(Field.Direction.D);
-//                        break;
-//                    case LEFT:
-//                    case A:
-//                        game.setDirection(Field.Direction.L);
-//                        break;
-//                    case RIGHT:
-//                    case D:
-//                        game.setDirection(Field.Direction.R);
-//                        break;
-//                    default:
-//                        System.out.println("Another key was pressed");
-//                }
-//            }
-//        });
-//    }
-//
-//    private void addEventHandlersStackPane(StackPane stackPane, int row, int col) {
-//        stackPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent mouseEvent) {
-//                game.setDestination(row, col);
-//            }
-//        });
-//    }
-
+    /**
+     * Creates and displays score bar for replay
+     * @return score bar component
+     */
     private HBox createScoreBar() {
         int unpickedKeys = 0;
         for (KeyObject k : mazeClass.getKeys()) {
@@ -276,6 +254,10 @@ public class MazePresenterLog implements Observer {
         return scoreBarOption;
     }
 
+    /**
+     * Creates and displays controls for replay options and modes
+     * @return changelog controls component
+     */
     private HBox createActions() {
         // create buttons
         Button btnBack = new Button("back to replays menu");
@@ -373,6 +355,9 @@ public class MazePresenterLog implements Observer {
         return actions;
     }
 
+    /**
+     * Restarts replay
+     */
     private void back() {
         stage.setScene(replays);
     }
@@ -387,6 +372,9 @@ public class MazePresenterLog implements Observer {
         goToTick(0);
     }
 
+    /**
+     * PLays replay backwards
+     */
     private void playReverse() {
         timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -404,6 +392,9 @@ public class MazePresenterLog implements Observer {
         }, 0, 250);
     }
 
+    /**
+     * Displays previous state
+     */
     private void previous() {
         this.currentTickLock.lock();
         if (this.currentTick > 0) {
@@ -419,6 +410,9 @@ public class MazePresenterLog implements Observer {
         }
     }
 
+    /**
+     * Displays next state
+     */
     private void next() {
         this.currentTickLock.lock();
         if (changelog.tickCount - 1 > this.currentTick) {
@@ -434,6 +428,9 @@ public class MazePresenterLog implements Observer {
         }
     }
 
+    /**
+     * Plays replays in normal flow
+     */
     private void play() {
         timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -451,6 +448,9 @@ public class MazePresenterLog implements Observer {
         }, 0, 250);
     }
 
+    /**
+     * Displays finish of replay
+     */
     private void end() {
         this.currentTickLock.lock();
         this.currentTick = changelog.tickCount - 1;
@@ -458,6 +458,10 @@ public class MazePresenterLog implements Observer {
         goToTick(changelog.tickCount - 1);
     }
 
+    /**
+     * Supportive function, displays concrete tick
+     * @param tick
+     */
     private void goToTick(int tick) {
         Task<Void> task = new Task<Void>() {
             @Override

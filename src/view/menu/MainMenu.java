@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 
 
 /**
+ * @author Adrián Ponechal
  * Creates main menu scene
  */
 public class MainMenu  extends Menu {

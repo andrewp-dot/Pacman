@@ -7,6 +7,11 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+/**
+ * @author Adrián Ponechal
+ *
+ * Creates navigation bar. It contains 'back to previous menu' button.
+ */
 public class NavBar {
     private Stage window;
     private Scene prevScene;
@@ -19,6 +24,10 @@ public class NavBar {
         this.navbar = createNavBar();
     }
 
+    /**
+     * Gets navbar component
+     * @return stackpane
+     */
     public StackPane getNavbar() { return this.navbar; }
 
     /**

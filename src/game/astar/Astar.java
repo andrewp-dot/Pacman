@@ -11,6 +11,7 @@ import java.util.Collections;
 import static java.lang.Math.*;
 
 /**
+ * @author Adrián Ponechal
  * A-star algorithm for pathfinding
  */
 public class Astar {
@@ -135,7 +136,7 @@ public class Astar {
     }
 
     /**
-     *
+     * Finds the node in open list
      */
     private FieldNode findInOpen(Field field)
     {

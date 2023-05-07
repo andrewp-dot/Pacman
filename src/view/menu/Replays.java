@@ -18,6 +18,11 @@ import view.MazePresenterLog;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * @author Adrián Ponechal
+ *
+ * Creates replays and displays menu of replays
+ */
 public class Replays extends Menu {
     private Scene prevMenu;
     private ArrayList<Button> replays;
@@ -49,7 +54,7 @@ public class Replays extends Menu {
     /**
      * Gets scene of replay menu
      *
-     * @return
+     * @return scene
      */
     public Scene getScene() {
         return this.scene;
