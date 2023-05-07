@@ -41,8 +41,8 @@
             </plugin>
         </plugins>
     </build>
-    <reporting>...</reporting>
-    <!-- More Project Information & Settings -->
+    <!-- <reporting>...</reporting> -->
+    <!-- More Project Information & Settings
     <name>Pacman</name>
     <description>Project for curse IJA on VUT Faculty of information technology</description>
 
@@ -51,6 +51,6 @@
     <prerequisites>...</prerequisites>
     <repositories>...</repositories>
     <pluginRepositories>...</pluginRepositories>
-    <profiles>...</profiles>
+    <profiles>...</profiles> -->
 
 </project>
